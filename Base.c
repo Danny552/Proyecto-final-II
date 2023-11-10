@@ -155,7 +155,7 @@ int menuAdmin(char usuario[100]){
 }
 
 
-
+//hola
 
 int ingresarAdministrador(){
     char usuario[100];
