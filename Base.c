@@ -2,14 +2,32 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#define MAX_Votantes 150
+
 struct Votante
 {
     char código[12]; //Documento identidad
     char nombre[60]; //Nombre
     char contraseña[100]; //Contraseña establecida por el programa
     bool voto; //Si ya votó o no
-    int tipo; //Tipo de votante (Estudiante, Egresado, Docentes, Administrativos)
+    int tipo; //Tipo de votante (1.Estudiante, 2.Egresado, 3.Docentes, 4.Administrativos)
 };
+
+struct Votante Votantes[MAX_Votantes];
+
+bool ConfirmarCedula(int contador, char cd[10]) //Función auxiliar que sirve para verificar que la misma cedula no esté dos veces
+{
+    int i;
+    for(i=0;i<contador;i++)
+    {
+        if(Votantes[i].código == cd)
+        {
+            printf("Usuario ya registrado.\n");
+            return false;
+        }
+    }
+    return true;
+}
 
 struct Admin
 {
@@ -85,7 +103,6 @@ void ConsultarVotos()
     //Opción del administrador para consultar como van las votaciones
 }
 
-
 int menuVotante(){
     int id;
     printf ("Ingrese su número de identificación: ");
@@ -153,9 +170,6 @@ int menuAdmin(char usuario[100]){
         break;
     }
 }
-
-
-//hola
 
 int ingresarAdministrador(){
     char usuario[100];
