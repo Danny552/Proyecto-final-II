@@ -179,7 +179,7 @@ void IngresarAdministrador(){
     gets(clave);
     for(int i=0;i<2;i++)
     {
-        if(codigo == admins[i].codigo && clave == admins[i].clave)
+        if(strcmp(codigo, admins[i].codigo) && strcmp(clave, admins[i].clave))
         {
             MenuAdmin(i);
             break;
