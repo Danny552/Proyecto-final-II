@@ -6,7 +6,17 @@
 
 #define MAX_Votantes 150
 
-int registros = 0;
+int registro()
+{
+    FILE *archivo;
+    int n;
+    archivo = fopen("files//contador.txt","r");
+    fscanf(archivo,"%d",&n);
+    fclose(archivo);
+    return n;
+}
+
+int registros;
 
 void MenuAdmin(int admin);
 void MenuConsultas();
@@ -281,6 +291,7 @@ void MenuConsultas(){
 }
 
 int main(){
+    registros = registro();
     system("CLS");
     Menu();
 }
