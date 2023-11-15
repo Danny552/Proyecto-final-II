@@ -97,13 +97,6 @@ void Buscar() {
     }
 }
 
-// Función para mostrar registros de estudiantes con edades mayores o iguales a un valor específico
-    fclose(archdisco);
-
-    if (c == 0) {
-        printf("No se encontraron registros coincidentes.\n");
-    }
-}
 //función para borrar registros de estudiantes
 void borrarRegistro() {
 struct Alumno alumno;
@@ -128,6 +121,7 @@ rename("C:\\Users\\danie\\Desktop\\UNI\\SEMESTRE II\\Progra II\\progra-2\\Trabaj
 //avisando
 puts("registro eliminado");
 };
+
 int main() {
     int op;
 

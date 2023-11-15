@@ -94,25 +94,25 @@ void registrarArchivoClaves() //Se registra un archivo donde se almacenarán las
             a = rand() % 123;
         }while( (a<33) || (a==123) || (a>90 && a<97) || (a>58 && a<63));
         c = a;
-        votante.clave[i];
+        votante.clave[i] = c;
     }
     printf("Clave generada exitosamente.\n");
     fwrite(&votante,sizeof(votante),1,archdisco);
     fclose(archdisco);
 }
 
-void registrarArchivoCodigos() //Se registra un archivo donde se almacenarán los codigos
+void registrarArchivoTipos() //Se registra un archivo donde se almacenarán los codigos
 {
     struct Votante votante;
     FILE *archdisco;
     archdisco = fopen("files//Votantes//tipos.txt", "at+");
     printf("Ingrese tipo del votante a registrar: ");
-    scanf("%d", votante.tipo);
+    scanf("%d", &votante.tipo);
     fwrite(&votante,sizeof(votante),1,archdisco);
     fclose(archdisco);
 }
 
-void registrarVotante() //Opción para el administrativo para registrar un votante
+void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
     
 }
