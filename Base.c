@@ -18,6 +18,14 @@ int registro()
 
 int registros;
 
+void modificarCantidadRegistros(int n)
+{
+    FILE *archivo;
+    archivo = fopen("files//contador.txt","r");
+    fprintf(archivo,"%d",n);
+    fclose(archivo);
+}
+
 void MenuAdmin(int admin);
 void MenuConsultas();
 
@@ -130,6 +138,7 @@ void RegistrarVotante() //Opción para el administrativo para registrar un votan
     registrarClaves();
     registrarTipos();
     registros++;
+    modificarCantidadRegistros(registros);
 }
 
 void EliminarVotante()
