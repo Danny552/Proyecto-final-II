@@ -6,7 +6,7 @@
 
 #define MAX_Votantes 150
 
-void MenuAdmin();
+void MenuAdmin(int admin);
 void MenuConsultas();
 
 struct Votante
@@ -40,6 +40,8 @@ struct Admin
     char nombre[60]; //Nombre
     char clave[100]; //clave establecida
 };
+
+struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "odioracket23"} , {"1137059546", "Juan Camilo Cano", "teamoracket32"} };
 
 struct Votos
 {
@@ -169,17 +171,26 @@ void Histograma(){
 }
 
 void IngresarAdministrador(){
-    char usuario[100];
-    int contra;
-    printf("Ingrese su usuario:");
-    gets(usuario);
-    printf("Ingrese su contra: ");
-    scanf("%d", &contra);
-    MenuAdmin(usuario);
+    getchar();
+    char codigo[12], clave[100];    
+    printf("Ingrese su código: ");
+    gets(codigo);
+    printf("Ingrese su clave: ");
+    gets(clave);
+    for(int i=0;i<2;i++)
+    {
+        if(codigo == admins[i].codigo && clave == admins[i].clave)
+        {
+            MenuAdmin(i);
+            break;
+        }
+    }
+    printf("Clave o código incorrectos.\n");
 }
+
 void Menu(){
     int opc;
-    printf ("1) Votante\n2) Administrador");
+    printf ("1) Votante\n2) Administrador\nSu opción: ");
     scanf ("%d", &opc);
     switch(opc){
         case 1:
@@ -191,11 +202,11 @@ void Menu(){
         }
     }
 
-void MenuAdmin(char usuario[100]){
-    printf("BIENVENIDO %d\n", usuario[100]);
+void MenuAdmin(int admin){
+    printf("BIENVENIDO %s\n", admins[admin].nombre); //Xd
     printf("Ingrese lo que desea realizar:\n");
     int opc;
-    printf("1) Registrar votante\n2)Eliminar datos de votante\n3)Registrar candidato\n4)Eliminar candidato\n5)Finalizar y ver consultas (ESTO CIERRA LOS VOTOS)\n6)Salir.");
+    printf("1) Registrar votante\n2)Eliminar datos de votante\n3)Registrar candidato\n4)Eliminar candidato\n5)Finalizar y ver consultas (ESTO CIERRA LOS VOTOS)\n6)Salir.\n");
     scanf("%d", &opc);
     switch (opc)
     {
@@ -218,7 +229,7 @@ void MenuAdmin(char usuario[100]){
     printf ("opción no válida");
     Sleep(100);
     system("Clear");
-    MenuAdmin(usuario);
+    MenuAdmin(admin);
         break;
     }
 }
@@ -230,12 +241,12 @@ void MenuVotante(){
     printf ("Ingrese su clave (Dada por el administrador):");
     scanf ("%d", &id);
     printf ("Ingrese su candidato a votar:");
-    printf ("1)-----------\n2)-----------\n3)-----------\n4)-----------\n5)-----------\n6)-----------");
+    printf ("1)-----------\n2)-----------\n3)-----------\n4)-----------\n5)-----------\n6)-----------\n");
 }
 void MenuConsultas(){
     do{
     printf("Ingrese lo que desee ver: ");
-    printf("1)Votos netos\n2)Porcentaje neto de votos\n2)Porcentaje de votos ponderados\n3)Histograma de frecuencia de votos");
+    printf("1)Votos netos\n2)Porcentaje neto de votos\n2)Porcentaje de votos ponderados\n3)Histograma de frecuencia de votos\n");
     int opc;
     scanf ("%d", &opc);
     switch (opc)
@@ -255,12 +266,13 @@ void MenuConsultas(){
         case 5:
         break;
     default:
-    printf("Opción no válida");
+    printf("Opción no válida.\n");
         break;
     }
     } while (0);
 }
 
 int main(){
+    system("CLS");
     Menu();
 }
