@@ -6,6 +6,8 @@
 
 #define MAX_Votantes 150
 
+int registros = 0;
+
 void MenuAdmin(int admin);
 void MenuConsultas();
 
@@ -63,29 +65,26 @@ struct Candidato
 void registrarCodigos() //Se registra un archivo donde se almacenarán los codigos
 {
     getchar();
-    struct Votante votante;
     FILE *archdisco;
     archdisco = fopen("files//Votantes//cedulas.txt", "at+");
     printf("Ingrese código del votante a registrar: ");
-    gets(votante.codigo);
-    fwrite(&votante,sizeof(votante),1,archdisco);
+    gets(Votantes[registros].codigo);
+    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
     fclose(archdisco);
 }
 
 void registrarNombres() //Se registra un archivo donde se almacenarán los nombres
 {
-    struct Votante votante;
     FILE *archdisco;
     archdisco = fopen("files//Votantes//nombres.txt", "at+");
     printf("Ingrese nombre del votante a registrar: ");
-    gets(votante.nombre);
-    fwrite(&votante,sizeof(votante),1,archdisco);
+    gets(Votantes[registros].nombre);
+    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
     fclose(archdisco);
 }
 
 void registrarClaves() //Se registra un archivo donde se almacenarán las claves
 {
-    struct Votante votante;
     FILE *archdisco;
     archdisco = fopen("files//Votantes//claves.txt", "at+");
     char c;
@@ -97,21 +96,20 @@ void registrarClaves() //Se registra un archivo donde se almacenarán las claves
             a = rand() % 123;
         }while( (a<33) || (a==123) || (a>90 && a<97) || (a>58 && a<63));
         c = a;
-        votante.clave[i] = c;
+        Votantes[registros].clave[i] = c;
     }
     printf("Clave generada exitosamente.\n");
-    fwrite(&votante,sizeof(votante),1,archdisco);
+    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
     fclose(archdisco);
 }
 
 void registrarTipos() //Se registra un archivo donde se almacenarán los codigos
 {
-    struct Votante votante;
     FILE *archdisco;
     archdisco = fopen("files//Votantes//tipos.txt", "at+");
     printf("Ingrese tipo del votante a registrar: ");
-    scanf("%d", &votante.tipo);
-    fwrite(&votante,sizeof(votante),1,archdisco);
+    scanf("%d", &Votantes[registros].tipo);
+    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
     fclose(archdisco);
 }
 
@@ -121,6 +119,7 @@ void RegistrarVotante() //Opción para el administrativo para registrar un votan
     registrarNombres();
     registrarClaves();
     registrarTipos();
+    registros++;
 }
 
 void EliminarVotante()
