@@ -6,9 +6,9 @@
 
 struct Votante
 {
-    char código[12]; //Documento identidad
+    char codigo[12]; //Documento identidad
     char nombre[60]; //Nombre
-    char contraseña[100]; //Contraseña establecida por el programa
+    char clave[10]; //clave establecida por el programa
     bool voto; //Si ya votó o no
     int tipo; //Tipo de votante (1.Estudiante, 2.Egresado, 3.Docentes, 4.Administrativos)
 };
@@ -20,7 +20,7 @@ bool ConfirmarCedula(int contador, char cd[10]) //Función auxiliar que sirve pa
     int i;
     for(i=0;i<contador;i++)
     {
-        if(Votantes[i].código == cd)
+        if(Votantes[i].codigo == cd)
         {
             printf("Usuario ya registrado.\n");
             return false;
@@ -31,9 +31,9 @@ bool ConfirmarCedula(int contador, char cd[10]) //Función auxiliar que sirve pa
 
 struct Admin
 {
-    char código[12]; //Documento identidad
+    char codigo[12]; //Documento identidad
     char nombre[60]; //Nombre
-    char contraseña[100]; //Contraseña establecida
+    char clave[100]; //clave establecida
 };
 
 struct Votos
@@ -48,19 +48,68 @@ struct Votos
 struct Candidato
 {
     char nombre[60]; //Nombre
-    char código[12]; //Documento identidad
+    char codigo[12]; //Documento identidad
     char nTarjetón; //Número en el tarjetón
     struct Votos votos; //Cantidad de votos a favor
 };
 
-void crearArchivo()
+void registrarArchivoCodigos() //Se registra un archivo donde se almacenarán los codigos
 {
-    //Se crea un archivo donde se almacenarán los códigos
+    struct Votante votante;
+    FILE *archdisco;
+    archdisco = fopen("files//Votantes//cedulas.txt", "at+");
+    printf("Ingrese código del votante a registrar: ");
+    gets(votante.codigo);
+    fwrite(&votante,sizeof(votante),1,archdisco);
+    fclose(archdisco);
 }
 
-void registrarVotante()
+void registrarArchivoNombres() //Se registra un archivo donde se almacenarán los nombres
 {
-    //Opción para el administrativo para registrar un votante
+    struct Votante votante;
+    FILE *archdisco;
+    archdisco = fopen("files//Votantes//nombres.txt", "at+");
+    printf("Ingrese nombre del votante a registrar: ");
+    gets(votante.nombre);
+    fwrite(&votante,sizeof(votante),1,archdisco);
+    fclose(archdisco);
+}
+
+void registrarArchivoClaves() //Se registra un archivo donde se almacenarán las claves
+{
+    struct Votante votante;
+    FILE *archdisco;
+    archdisco = fopen("files//Votantes//claves.txt", "at+");
+    char c;
+    int i, a;
+    for(i=0;i<10;i++)
+    {
+        do
+        {
+            a = rand() % 123;
+        }while( (a<33) || (a==123) || (a>90 && a<97) || (a>58 && a<63));
+        c = a;
+        votante.clave[i];
+    }
+    printf("Clave generada exitosamente.\n");
+    fwrite(&votante,sizeof(votante),1,archdisco);
+    fclose(archdisco);
+}
+
+void registrarArchivoCodigos() //Se registra un archivo donde se almacenarán los codigos
+{
+    struct Votante votante;
+    FILE *archdisco;
+    archdisco = fopen("files//Votantes//tipos.txt", "at+");
+    printf("Ingrese tipo del votante a registrar: ");
+    scanf("%d", votante.tipo);
+    fwrite(&votante,sizeof(votante),1,archdisco);
+    fclose(archdisco);
+}
+
+void registrarVotante() //Opción para el administrativo para registrar un votante
+{
+    
 }
 
 void ElimiarVotante()
@@ -107,11 +156,12 @@ int menuVotante(){
     int id;
     printf ("Ingrese su número de identificación: ");
     scanf ("%d", &id);
-    printf ("Ingrese su contraseña (Dada por el administrador):");
+    printf ("Ingrese su clave (Dada por el administrador):");
     scanf ("%d", &id);
     printf ("Ingrese su candidato a votar:");
     printf ("1)-----------\n2)-----------\n3)-----------\n4)-----------\n5)-----------\n6)-----------");
 }
+
 int menuConsultas(){
     do{
     printf("Ingrese lo que desee ver: ");
@@ -140,6 +190,7 @@ int menuConsultas(){
     }
     } while (0);
 }
+
 int menuAdmin(char usuario[100]){
     printf("BIENVENIDO %d\n", cupper(usuario[100]));
     printf("Ingrese lo que desea realizar:\n");
@@ -176,7 +227,7 @@ int ingresarAdministrador(){
     int contra;
     printf("Ingrese su usuario:");
     scanf("%d", &usuario);
-    printf("Ingrese su contraseña: ");
+    printf("Ingrese su clave: ");
     scanf("%d", &contra);
     menuAdmin(usuario);
 }
