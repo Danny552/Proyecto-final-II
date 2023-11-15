@@ -60,8 +60,9 @@ struct Candidato
     struct Votos votos; //Cantidad de votos a favor
 };
 
-void registrarArchivoCodigos() //Se registra un archivo donde se almacenarán los codigos
+void registrarCodigos() //Se registra un archivo donde se almacenarán los codigos
 {
+    getchar();
     struct Votante votante;
     FILE *archdisco;
     archdisco = fopen("files//Votantes//cedulas.txt", "at+");
@@ -71,7 +72,7 @@ void registrarArchivoCodigos() //Se registra un archivo donde se almacenarán lo
     fclose(archdisco);
 }
 
-void registrarArchivoNombres() //Se registra un archivo donde se almacenarán los nombres
+void registrarNombres() //Se registra un archivo donde se almacenarán los nombres
 {
     struct Votante votante;
     FILE *archdisco;
@@ -82,7 +83,7 @@ void registrarArchivoNombres() //Se registra un archivo donde se almacenarán lo
     fclose(archdisco);
 }
 
-void registrarArchivoClaves() //Se registra un archivo donde se almacenarán las claves
+void registrarClaves() //Se registra un archivo donde se almacenarán las claves
 {
     struct Votante votante;
     FILE *archdisco;
@@ -103,7 +104,7 @@ void registrarArchivoClaves() //Se registra un archivo donde se almacenarán las
     fclose(archdisco);
 }
 
-void registrarArchivoTipos() //Se registra un archivo donde se almacenarán los codigos
+void registrarTipos() //Se registra un archivo donde se almacenarán los codigos
 {
     struct Votante votante;
     FILE *archdisco;
@@ -116,7 +117,10 @@ void registrarArchivoTipos() //Se registra un archivo donde se almacenarán los 
 
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
-    
+    registrarCodigos();
+    registrarNombres();
+    registrarClaves();
+    registrarTipos();
 }
 
 void EliminarVotante()
@@ -172,20 +176,25 @@ void Histograma(){
 
 void IngresarAdministrador(){
     getchar();
+    bool credencia = false;
+    int i;
     char codigo[12], clave[100];    
     printf("Ingrese su código: ");
     gets(codigo);
     printf("Ingrese su clave: ");
     gets(clave);
-    for(int i=0;i<2;i++)
+    for(i=0;i<2;i++)
     {
-        if(strcmp(codigo, admins[i].codigo) && strcmp(clave, admins[i].clave))
+        if(strcmp(codigo, admins[i].codigo)==0 && strcmp(clave, admins[i].clave)==0)
         {
             MenuAdmin(i);
-            break;
-        }
+            credencia = true;
+        };
     }
-    printf("Clave o código incorrectos.\n");
+    if(!credencia)
+    {
+        printf("Clave o código incorrectos.\n");
+    }
 }
 
 void Menu(){
