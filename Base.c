@@ -189,7 +189,57 @@ void VotoPonderadoTipo(){
 }
 
 void Histograma(){
-    //Histograma
+    float votos1 = 1378;
+    float votos2 = 1086;
+    float votos3 = 33;
+    float votos4 = 5541;
+    float votos5 = 52;
+    float votos6 = 453;
+    float votosTOT = votos1 + votos2 + votos3 + votos4 + votos5 + votos6;
+
+    printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
+    for (int i = 1; i < votos1; i++){
+        if (i % 50 == 0){
+            printf ("=");
+        }
+    }
+    printf("| %.2f%%", (votos1 / votosTOT) * 100);
+    printf ("\nCARLOS ALFONSO VICTORIA MENA:   ");
+    for (int i = 1; i < votos2; i++){
+        if (i % 50 == 0){
+            printf ("=");
+        }
+    }
+    printf("| %.2f%%", (votos2 / votosTOT) * 100);
+    printf ("\nGIOVANNI ARIAS:                 ");
+    for (int i = 1; i < votos3; i++){
+        if (i % 50 == 0){
+            printf ("=");
+        }
+    }
+    printf("| %.2f%%", (votos3 / votosTOT) * 100);
+    printf ("\nALEXANDER MOLINA CABRERA:       ");
+    for (int i = 1; i < votos4; i++){
+        if (i % 50 == 0){
+            printf ("=");
+        }
+    }
+    printf("| %.2f%%", (votos4 / votosTOT) * 100);
+    printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
+    for (int i = 1; i < votos5; i++){
+        if (i % 50 == 0){
+            printf ("=");
+        }
+    }
+    printf("| %.2f%%", (votos5 / votosTOT) * 100);
+    printf ("\nVOTO EN BLANCO:                 ");
+    for (int i = 1; i < votos6; i++){
+        if (i % 50 == 0){
+            printf ("=");
+        }
+    }
+    printf("| %.2f%%", (votos6 / votosTOT) * 100);
+    printf ("\nVOTOS TOTALES: %.0f", votosTOT);
 }
 
 void IngresarAdministrador(){
@@ -221,7 +271,7 @@ void Menu(){
     scanf ("%d", &opc);
     switch(opc){
         case 1:
-        RegistrarVotante();
+        RegistrarVotante(); 
         break;
         case 2:
         IngresarAdministrador();
@@ -302,5 +352,5 @@ void MenuConsultas(){
 int main(){
     registros = registro();
     system("CLS");
-    Menu();
+    Histograma();
 }
