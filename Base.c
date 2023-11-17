@@ -185,7 +185,7 @@ void VotoNetoTipo(){
 }
 
 void VotoPonderadoTipo(){
-    //los votos después de hacer la ponderación
+    //los votos después de hacer la ponderación eso
 }
 
 void Histograma(){
