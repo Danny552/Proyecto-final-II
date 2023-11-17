@@ -141,9 +141,51 @@ void RegistrarVotante() //Opción para el administrativo para registrar un votan
     modificarCantidadRegistros(registros);
 }
 
-void EliminarVotante()
+void EliminarVotante() //Opción del Admin para eliminar un votante
 {
-    //Opción del Admin para eliminar un votante
+    FILE *cedulas = fopen("files//Votantes//cedulas.txt", "r"); //Entradas
+    FILE *claves = fopen("files//Votantes//claves.txt", "r");
+    FILE *nombres = fopen("files//Votantes//nombres.txt", "r");
+    FILE *tipos = fopen("files//Votantes//tipos.txt", "r");
+    FILE *voto = fopen("files//Votantes//votoSi.txt", "r");
+    FILE *temporalCe = fopen("files//Votantes//temporalCe.txt", "w"); //Temporales
+    FILE *temporalCl = fopen("files//Votantes//temporalCl.txt", "w");
+    FILE *temporaln = fopen("files//Votantes//temporaln.txt", "w");
+    FILE *temporalt = fopen("files//Votantes//temporalt.txt", "w");
+    FILE *temporalv = fopen("files//Votantes//temporalv.txt", "w");
+    
+    char cedulaElim[12];
+    printf("Ingrese el código del votante que desea eliminar: ");
+    scanf("%s", &cedulaElim);
+
+    char linea[100];
+
+    while(fgets(linea, sizeof(linea), cedulas) != NULL)
+    {
+        if(strstr(linea, cedulaElim) == NULL)
+        {
+            fputs(linea, temporalCe);
+            fgets(linea, sizeof(linea), claves);
+            fputs(linea, temporalCl);
+            fgets(linea, sizeof(linea), nombres);
+            fputs(linea, temporaln);
+            fgets(linea, sizeof(linea), tipos);
+            fputs(linea, temporalt);
+            fgets(linea, sizeof(linea), voto);
+            fputs(linea, temporalv);
+        }
+    }
+
+    fclose(cedulas);
+    fclose(claves);
+    fclose(nombres);
+    fclose(tipos);
+    fclose(voto);
+    fclose(temporalCe);
+    fclose(temporalCl);
+    fclose(temporaln);
+    fclose(temporalt);
+    fclose(temporalv);
 }
 
 void ConsultarVotantes()
@@ -151,41 +193,13 @@ void ConsultarVotantes()
     //Opción del administrador para consultar los datos de los votantes
 }
 
-void AnadirCandidato()
-{
-    //Opción del administrador para registrar un candidato
-}
-
-void EliminarCandidato()
-{
-    //Opción del administrador para eiminar un candidato
-}
-
-void ConsultarCandidatos()
-{
-    //Opción del administrador para consultar los datos de los candidatos
-}
-
 void ConsultarVotosESpecificos()
 {
     //Opción del administrador para consultar cuantos votos lleva un candidato especifico
 }
 
-void ConsultarVotos()
-{
-    //Opción del administrador para consultar como van las votaciones
-}
-
-void votoNeto(){
-    //para ver el la cantidad total 
-}
-
 void VotoNetoTipo(){
     //La cantidad total por tipo de votante
-}
-
-void VotoPonderadoTipo(){
-    //los votos después de hacer la ponderación eso
 }
 
 void Histograma(){
