@@ -17,11 +17,12 @@ int registro()
 }
 
 int registros;
+void Menu();
 
 void modificarCantidadRegistros(int n)
 {
     FILE *archivo;
-    archivo = fopen("files//contador.txt","r");
+    archivo = fopen("files//contador.txt","w");
     fprintf(archivo,"%d",n);
     fclose(archivo);
 }
@@ -131,14 +132,25 @@ void registrarTipos() //Se registra un archivo donde se almacenarán los codigos
     fclose(archdisco);
 }
 
+void registrarVoto()
+{
+    FILE *archdisco;
+    archdisco = fopen("files//Votantes//tipos.txt", "at+");
+    Votantes[registros].tipo = 0;
+    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
+    fclose(archdisco);
+}
+
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
     registrarCodigos();
     registrarNombres();
     registrarClaves();
     registrarTipos();
+    registrarVoto();
     registros++;
     modificarCantidadRegistros(registros);
+    Menu();
 }
 
 void EliminarVotante() //Opción del Admin para eliminar un votante
@@ -188,19 +200,45 @@ void EliminarVotante() //Opción del Admin para eliminar un votante
     fclose(temporalv);
 }
 
-void imprimirEstructura(struct Votante datos) {
-    printf("Nombre: %s\n", datos.nombre);  // Ajusta 'tipo' según el tipo real de tus datos
-    printf("Código: %s\n", datos.codigo);
-    printf("Clave: %s\n", datos.clave);
-    if(datos.voto == 0)
+void imprimirEstructura() {
+
+    int i;
+    FILE *cedula;
+    FILE *nombre;
+    FILE *clave;
+    FILE *tipo;
+    FILE *voto;
+    for(i=0;i<registros;i++)
     {
-        printf("¿Ya votó?: No\n");
+        cedula = fopen("files//Votantes//cedulas.txt", "r");
+        fread(&Votantes[i],sizeof(Votantes),1,cedula);
+        printf("Código: %s\n", Votantes[registros].codigo);
+        nombre = fopen("files//Votantes//nombres.txt", "r");
+        fread(&Votantes[i],sizeof(Votantes),1,nombre);
+        printf("Nombre: %s\n", Votantes[registros].nombre);
+        clave = fopen("files//Votantes//claves.txt", "r");
+        fread(&Votantes[i],sizeof(Votantes),1,clave);
+        printf("Clave: %s\n", Votantes[registros].clave);
+        tipo = fopen("files//Votantes//tipos.txt", "r");
+        fread(&Votantes[i],sizeof(Votantes),1,tipo);
+        printf("Tipo: %d\n", Votantes[registros].tipo);
+        voto = fopen("files//Votantes//votoSi.txt", "r");
+        fread(&Votantes[i],sizeof(Votantes),1,voto);
+        printf("¿Votó?: ");
+            if(Votantes[registros].tipo == 0)
+            {
+                printf("No\n");
+            }
+            else
+            {
+                printf("Sí\n");
+            }    
+        fclose(cedula);
+        fclose(nombre);
+        fclose(clave);
+        fclose(tipo);
+        fclose(voto);
     }
-    else
-    {
-        printf("¿Ya votó?: Sí\n");
-    }    
-    printf("Componente 5: %d\n", datos.tipo);
 }
 
 void ConsultarVotantes() //Opción del administrador para consultar los datos de los votantes
@@ -447,7 +485,7 @@ void HistogramaDocentes(){
     printf ("\nVOTOS TOTALES: %.0f", votosTOT);
 }
 
-void IngresarAdministrador(){
+void InicioAdministrador(){
     getchar();
     bool credencia = false;
     int i;
@@ -467,8 +505,11 @@ void IngresarAdministrador(){
     if(!credencia)
     {
         printf("Clave o código incorrectos.\n");
+        Menu();
     }
 }
+
+void MenuVotante();
 
 void Menu(){
     int opc;
@@ -476,10 +517,10 @@ void Menu(){
     scanf ("%d", &opc);
     switch(opc){
         case 1:
-        RegistrarVotante(); 
+        MenuVotante(); 
         break;
         case 2:
-        IngresarAdministrador();
+        InicioAdministrador();
         break;
         }
     }
@@ -488,24 +529,28 @@ void MenuAdmin(int admin){
     printf("BIENVENIDO %s\n", admins[admin].nombre); //Xd
     printf("Ingrese lo que desea realizar:\n");
     int opc;
-    printf("1) Registrar votante\n2)Eliminar datos de votante\n3)Registrar candidato\n4)Eliminar candidato\n5)Finalizar y ver consultas (ESTO CIERRA LOS VOTOS)\n6)Salir.\n");
+    printf("1) Registrar votante\n2)Eliminar datos de votante\n3)Consultar datos de los votantes\n4)Consultas\n5)Finalizar(ESTO CIERRA LOS VOTOS)\n6)Salir.\n");
     scanf("%d", &opc);
     switch (opc)
     {
     case 1:
     RegistrarVotante();
+    MenuAdmin(admin);
         break;
     case 2:
     EliminarVotante();
+    MenuAdmin(admin);
         break;
     case 3:
-    
+    ConsultarVotantes();
+    MenuAdmin(admin);
         break;
-    case 5:
+    case 4:
     MenuConsultas();
+    MenuAdmin(admin);
         break;
     case 6: 
-    Menu();
+    MenuAdmin(admin);
         break;
     default:
     printf ("opción no válida");
