@@ -34,7 +34,7 @@ struct Votante
     char codigo[12]; //Documento identidad
     char nombre[60]; //Nombre
     char clave[10]; //clave establecida por el programa
-    bool voto; //Si ya votó o no
+    int voto; //Si ya votó o no
     int tipo; //Tipo de votante (1.Estudiante, 2.Egresado, 3.Docentes, 4.Administrativos)
 };
 
@@ -192,17 +192,14 @@ void imprimirEstructura(struct Votante datos) {
     printf("Nombre: %s\n", datos.nombre);  // Ajusta 'tipo' según el tipo real de tus datos
     printf("Código: %s\n", datos.codigo);
     printf("Clave: %s\n", datos.clave);
-    int v = datos.voto;
-    char Voto[2];
-    if(v == 1)
+    if(datos.voto == 0)
     {
-        strcpy(Voto,"Sí");
+        printf("¿Ya votó?: No\n");
     }
     else
     {
-        strcpy(Voto,"No");
-    }
-    printf("¿Ya votó?: %s\n", Voto);
+        printf("¿Ya votó?: Sí\n");
+    }    
     printf("Componente 5: %d\n", datos.tipo);
 }
 
