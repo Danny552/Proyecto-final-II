@@ -156,7 +156,7 @@ void EliminarVotante() //Opción del Admin para eliminar un votante
     
     char cedulaElim[12];
     printf("Ingrese el código del votante que desea eliminar: ");
-    scanf("%s", &cedulaElim);
+    gets(cedulaElim);
 
     char linea[100];
 
@@ -308,7 +308,7 @@ void MenuAdmin(int admin){
     EliminarVotante();
         break;
     case 3:
-    AnadirCandidato();
+    
         break;
     case 5:
     MenuConsultas();
@@ -342,14 +342,8 @@ void MenuConsultas(){
     scanf ("%d", &opc);
     switch (opc)
     {
-        case 1:
-    votoNeto();
-    break;
         case 2:
     VotoNetoTipo();
-    break;
-        case 3:
-    VotoPonderadoTipo();
     break;
         case 4:
     Histograma();
@@ -365,6 +359,6 @@ void MenuConsultas(){
 
 int main(){
     registros = registro();
-    system("CLS");
+    printf("%d", registros);
     Histograma();
 }
