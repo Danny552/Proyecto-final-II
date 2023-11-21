@@ -188,9 +188,41 @@ void EliminarVotante() //Opción del Admin para eliminar un votante
     fclose(temporalv);
 }
 
-void ConsultarVotantes()
+void imprimirEstructura(struct Votante datos) {
+    printf("Nombre: %s\n", datos.nombre);  // Ajusta 'tipo' según el tipo real de tus datos
+    printf("Código: %s\n", datos.codigo);
+    printf("Clave: %s\n", datos.clave);
+    int v = datos.voto;
+    char Voto[2];
+    if(v == 1)
+    {
+        strcpy(Voto,"Sí");
+    }
+    else
+    {
+        strcpy(Voto,"No");
+    }
+    printf("¿Ya votó?: %s\n", Voto);
+    printf("Componente 5: %d\n", datos.tipo);
+}
+
+void ConsultarVotantes() //Opción del administrador para consultar los datos de los votantes
 {
-    //Opción del administrador para consultar los datos de los votantes
+    FILE *cedulas = fopen("files//Votantes//cedulas.txt", "r"); //Entradas
+    FILE *claves = fopen("files//Votantes//claves.txt", "r");
+    FILE *nombres = fopen("files//Votantes//nombres.txt", "r");
+    FILE *tipos = fopen("files//Votantes//tipos.txt", "r");
+    FILE *voto = fopen("files//Votantes//votoSi.txt", "r");
+    struct Votante datos;
+    if(registros==0){
+        printf("No hay ningún votante registrado\n");
+    }
+    else{
+    while(fscanf(nombres, "%s", datos.nombre) == 1 && fscanf(cedulas, "%s", datos.codigo) == 1 && fscanf(claves, "%s", datos.clave) == 1 && fscanf(voto, "%d", &datos.voto) == 1 && fscanf(tipos, "%d", &datos.tipo) == 1)
+    {
+        imprimirEstructura(datos);
+    }
+    }
 }
 
 void ConsultarVotosESpecificos()
@@ -359,6 +391,7 @@ void MenuConsultas(){
 
 int main(){
     registros = registro();
+    system("CLS");
     printf("%d", registros);
     Histograma();
 }
