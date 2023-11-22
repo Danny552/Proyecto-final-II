@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <conio.h>
 #include <windows.h>
+#include <time.h>
 
 #define MAX_Votantes 150
 
@@ -81,31 +82,17 @@ struct Candidato
     struct Votos votos; //Cantidad de votos a favor
 };
 
-void registrarCodigos() //Se registra un archivo donde se almacenarán los codigos
+void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
     getchar();
     FILE *archdisco;
-    archdisco = fopen("files//Votantes//cedulas.txt", "at+");
+    archdisco = fopen("files//Votantes.txt", "at+");
     printf("Ingrese código del votante a registrar: ");
     gets(Votantes[registros].codigo);
-    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
-    fclose(archdisco);
-}
 
-void registrarNombres() //Se registra un archivo donde se almacenarán los nombres
-{
-    FILE *archdisco;
-    archdisco = fopen("files//Votantes//nombres.txt", "at+");
     printf("Ingrese nombre del votante a registrar: ");
     gets(Votantes[registros].nombre);
-    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
-    fclose(archdisco);
-}
 
-void registrarClaves() //Se registra un archivo donde se almacenarán las claves
-{
-    FILE *archdisco;
-    archdisco = fopen("files//Votantes//claves.txt", "at+");
     char c;
     int i, a;
     for(i=0;i<10;i++)
@@ -118,144 +105,71 @@ void registrarClaves() //Se registra un archivo donde se almacenarán las claves
         Votantes[registros].clave[i] = c;
     }
     printf("Clave generada exitosamente.\n");
-    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
-    fclose(archdisco);
-}
 
-void registrarTipos() //Se registra un archivo donde se almacenarán los codigos
-{
-    FILE *archdisco;
-    archdisco = fopen("files//Votantes//tipos.txt", "at+");
     printf("Ingrese tipo del votante a registrar: ");
     scanf("%d", &Votantes[registros].tipo);
-    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
-    fclose(archdisco);
-}
 
-void registrarVoto()
-{
-    FILE *archdisco;
-    archdisco = fopen("files//Votantes//tipos.txt", "at+");
-    Votantes[registros].tipo = 0;
-    fwrite(&Votantes,sizeof(Votantes),1,archdisco);
-    fclose(archdisco);
-}
+    Votantes[registros].voto = 0;
 
-void RegistrarVotante() //Opción para el administrativo para registrar un votante
-{
-    registrarCodigos();
-    registrarNombres();
-    registrarClaves();
-    registrarTipos();
-    registrarVoto();
+    fwrite(&Votantes[registros],sizeof(struct Votante),1,archdisco);
+    fclose(archdisco);
+
     registros++;
+
     modificarCantidadRegistros(registros);
-    Menu();
 }
 
 void EliminarVotante() //Opción del Admin para eliminar un votante
 {
-    FILE *cedulas = fopen("files//Votantes//cedulas.txt", "r"); //Entradas
-    FILE *claves = fopen("files//Votantes//claves.txt", "r");
-    FILE *nombres = fopen("files//Votantes//nombres.txt", "r");
-    FILE *tipos = fopen("files//Votantes//tipos.txt", "r");
-    FILE *voto = fopen("files//Votantes//votoSi.txt", "r");
-    FILE *temporalCe = fopen("files//Votantes//temporalCe.txt", "w"); //Temporales
-    FILE *temporalCl = fopen("files//Votantes//temporalCl.txt", "w");
-    FILE *temporaln = fopen("files//Votantes//temporaln.txt", "w");
-    FILE *temporalt = fopen("files//Votantes//temporalt.txt", "w");
-    FILE *temporalv = fopen("files//Votantes//temporalv.txt", "w");
+    FILE *archivo = fopen("files//Votantes.txt", "r"); //Entradas
+    FILE *temporal = fopen("files//temporal.txt", "w"); //Temporales
     
     char cedulaElim[12];
     printf("Ingrese el código del votante que desea eliminar: ");
     gets(cedulaElim);
 
-    char linea[100];
+    char linea[500];
 
-    while(fgets(linea, sizeof(linea), cedulas) != NULL)
+    while(fgets(linea, sizeof(linea), archivo) != NULL)
     {
         if(strstr(linea, cedulaElim) == NULL)
         {
-            fputs(linea, temporalCe);
-            fgets(linea, sizeof(linea), claves);
-            fputs(linea, temporalCl);
-            fgets(linea, sizeof(linea), nombres);
-            fputs(linea, temporaln);
-            fgets(linea, sizeof(linea), tipos);
-            fputs(linea, temporalt);
-            fgets(linea, sizeof(linea), voto);
-            fputs(linea, temporalv);
+            fputs(linea, temporal);
         }
     }
 
-    fclose(cedulas);
-    fclose(claves);
-    fclose(nombres);
-    fclose(tipos);
-    fclose(voto);
-    fclose(temporalCe);
-    fclose(temporalCl);
-    fclose(temporaln);
-    fclose(temporalt);
-    fclose(temporalv);
-}
+    fclose(archivo);
+    fclose(temporal);
+    remove("archivo.txt");
+    rename("temporal.txt", "Votantes.txt");
 
-void imprimirEstructura() {
-
-    int i;
-    FILE *cedula;
-    FILE *nombre;
-    FILE *clave;
-    FILE *tipo;
-    FILE *voto;
-    for(i=0;i<registros;i++)
-    {
-        cedula = fopen("files//Votantes//cedulas.txt", "r");
-        fread(&Votantes[i],sizeof(Votantes),1,cedula);
-        printf("Código: %s\n", Votantes[registros].codigo);
-        nombre = fopen("files//Votantes//nombres.txt", "r");
-        fread(&Votantes[i],sizeof(Votantes),1,nombre);
-        printf("Nombre: %s\n", Votantes[registros].nombre);
-        clave = fopen("files//Votantes//claves.txt", "r");
-        fread(&Votantes[i],sizeof(Votantes),1,clave);
-        printf("Clave: %s\n", Votantes[registros].clave);
-        tipo = fopen("files//Votantes//tipos.txt", "r");
-        fread(&Votantes[i],sizeof(Votantes),1,tipo);
-        printf("Tipo: %d\n", Votantes[registros].tipo);
-        voto = fopen("files//Votantes//votoSi.txt", "r");
-        fread(&Votantes[i],sizeof(Votantes),1,voto);
-        printf("¿Votó?: ");
-            if(Votantes[registros].tipo == 0)
-            {
-                printf("No\n");
-            }
-            else
-            {
-                printf("Sí\n");
-            }    
-        fclose(cedula);
-        fclose(nombre);
-        fclose(clave);
-        fclose(tipo);
-        fclose(voto);
-    }
+    registros--;
+    modificarCantidadRegistros(registros);
 }
 
 void ConsultarVotantes() //Opción del administrador para consultar los datos de los votantes
 {
-    FILE *cedulas = fopen("files//Votantes//cedulas.txt", "r"); //Entradas
-    FILE *claves = fopen("files//Votantes//claves.txt", "r");
-    FILE *nombres = fopen("files//Votantes//nombres.txt", "r");
-    FILE *tipos = fopen("files//Votantes//tipos.txt", "r");
-    FILE *voto = fopen("files//Votantes//votoSi.txt", "r");
-    struct Votante datos;
+    int i=0;
+    FILE *archivo = fopen("files//Votantes.txt", "r");
+    struct Votante Votantes;
     if(registros==0){
         printf("No hay ningún votante registrado\n");
     }
     else{
-    while(fscanf(nombres, "%s", datos.nombre) == 1 && fscanf(cedulas, "%s", datos.codigo) == 1 && fscanf(claves, "%s", datos.clave) == 1 && fscanf(voto, "%d", &datos.voto) == 1 && fscanf(tipos, "%d", &datos.tipo) == 1)
+    while(fread(&Votantes, sizeof(struct Votante), 1, archivo) == 1 && i<registros)
     {
-        imprimirEstructura(datos);
+        printf("Nombre: %s\n", Votantes.nombre);
+        printf("Código: %s\n", Votantes.codigo);
+        printf("Clave: %s\n", Votantes.clave);
+        printf("Tipo: %d\n", Votantes.tipo);
+        if(Votantes.voto)
+        {
+            printf("Ya votó.\n");
+        }
+        else{
+            printf("No ha votado.\n");
+        }
+        i++;
     }
     }
 }
@@ -550,7 +464,7 @@ void MenuAdmin(int admin){
     MenuAdmin(admin);
         break;
     case 6: 
-    MenuAdmin(admin);
+    Menu(admin);
         break;
     default:
     printf ("opción no válida");
@@ -621,8 +535,9 @@ void MenuConsultas(){
 }
 
 int main(){
+    srand(time(NULL));
     registros = registro();
     system("CLS");
-    printf("%d", registros);
+    printf("%d\n", registros);
     Menu();
 }
