@@ -5,6 +5,23 @@
 #include <windows.h>
 #include <time.h>
 
+#define RESET_COLOR     "\x1b[0m"
+#define NEGRO_T         "\x1b[30m"
+#define NEGRO_F         "\x1b[40m"
+#define ROJO_T          "\x1b[31m"
+#define ROJO_F          "\x1b[41m"
+#define VERDE_T         "\x1b[32m"
+#define VERDE_F         "\x1b[42m"
+#define AMARILLO_T      "\x1b[33m"
+#define AMARILLO_F      "\x1b[43m"
+#define AZUL_T          "\x1b[34m"
+#define AZUL_F          "\x1b[44m"
+#define MAGENTA_T       "\x1b[35m"
+#define MAGENTA_F       "\x1b[45m"
+#define CYAN_T          "\x1b[36m"
+#define CYAN_F          "\x1b[46m"
+#define BLANCO_T        "\x1b[37m"
+#define BLANCO_F        "\x1b[47m"
 #define MAX_Votantes 150
 
 int registro()
@@ -63,7 +80,7 @@ struct Admin
     char clave[100]; //clave establecida
 };
 
-struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "odioracket23"} , {"1137059546", "Juan Camilo Cano", "teamoracket32"} };
+struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "********"} , {"1137059546", "Juan Camilo Cano", "*********"} };
 
 struct Votos
 {
@@ -161,7 +178,25 @@ void ConsultarVotantes() //Opción del administrador para consultar los datos de
         printf("Nombre: %s\n", Votantes.nombre);
         printf("Código: %s\n", Votantes.codigo);
         printf("Clave: %s\n", Votantes.clave);
-        printf("Tipo: %d\n", Votantes.tipo);
+        printf("Tipo: ");
+        switch(Votantes.tipo)
+        {
+            case 1:
+                printf(AZUL_T "1 - Estudiante\n" RESET_COLOR);
+            break;
+
+            case 2:
+                printf(ROJO_T "2 - Egresado\n" RESET_COLOR);
+            break;
+
+            case 3:
+                printf(NEGRO_T "3 - Docente\n" RESET_COLOR);
+            break;
+            
+            case 4:
+                printf(VERDE_T "4 - Administrativo\n" RESET_COLOR);
+            break;
+        }
         if(Votantes.voto)
         {
             printf("Ya votó.\n");
@@ -181,21 +216,47 @@ void Votacion(int tipo)
     struct Candidato Candidatos[6];
     int n = fread(Candidatos, sizeof(struct Candidato), 6, archivo);
     int op;
+    printf("Bienvenido ");
+    switch(tipo)
+    {
+        case 1:
+            printf(AZUL_T "Estudiante\n" RESET_COLOR);
+        break;
+
+        case 2:
+            printf(ROJO_T "Egresado\n" RESET_COLOR);
+        break;
+
+        case 3:
+            printf(NEGRO_T "Docente\n" RESET_COLOR);
+        break;
+
+        case 4:
+            printf(VERDE_T "Administrativo\n" RESET_COLOR);
+        break;
+    }
     do{
     printf ("Ingrese su candidato a votar:\n");
-    printf ("1)LUIS FERNANDO GAVIRIA TRUJILLO\n2)CARLOS ALFONSO VICTORIA MENA\n3)GIOVANNI ARIAS\n4)JUAN CARLOS GUTIERREZ ARIAS\n5)ALEXANDER MOLINA CABRERA\n6)VOTO EN BLANCO\n");
+    printf (NEGRO_T "1)LUIS FERNANDO GAVIRIA TRUJILLO\n" VERDE_T "2)CARLOS ALFONSO VICTORIA MENA\n" AMARILLO_T "3)GIOVANNI ARIAS\n" MAGENTA_T "4)JUAN CARLOS GUTIERREZ ARIAS\n" CYAN_T "5)ALEXANDER MOLINA CABRERA\n" BLANCO_T "6)VOTO EN BLANCO\n" RESET_COLOR);
     scanf("%d", &op);
     if(op<1 || op>6)
     {
-        printf("Opción inválida.\n");
+        printf(ROJO_T "Opción inválida.\n");
     };
     }while(op<1 || op>6);
-    printf("Sí desea cancelar ingrese '0'. Para confirmar presione cualquier otra tecla\n");
+    printf(ROJO_T "Si desea cancelar ingrese '0'. Para confirmar presione cualquier otra tecla\n" RESET_COLOR);
     getchar();
     char c = getchar();
     if(c == '0')
     {
-        printf("Cancelado.\n");
+        printf(ROJO_T "Cancelado.\n" RESET_COLOR);
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
         Menu();
     }
     else
@@ -227,15 +288,13 @@ void Votacion(int tipo)
 
     if(remove("Candidatos.txt") != 0)
     {
-        printf("ErrorE.");
+        printf(ROJO_T "ErrorE.\n" RESET_COLOR);
     };
     Sleep(1);
     if(rename("CandidatosNuevo.txt", "Candidatos.txt") != 0)
     {
-        printf("ErrorR.");
+        printf(ROJO_T "ErrorR.\n" RESET_COLOR);
     };
-
-    Menu();
 }
 
 void InicioVotante()
@@ -244,7 +303,7 @@ void InicioVotante()
     bool credencia = false;
     int i;
     char codigo[12], clave[11];    
-    printf("Ingrese su código: ");
+    printf(RESET_COLOR "Ingrese su código: ");
     gets(codigo);
     printf("Ingrese su clave: ");
     gets(clave);
@@ -258,6 +317,7 @@ void InicioVotante()
     {
         if(strcmp(codigo, Votantes.codigo)==0 && strcmp(clave, Votantes.clave)==0)
         {
+            system("CLS");
             Votacion(Votantes.tipo);
             credencia = true;
             break;
@@ -265,7 +325,7 @@ void InicioVotante()
     }
     if(!credencia)
     {
-        printf("Clave o código incorrectos.\n");
+        printf(RESET_COLOR "Clave o código incorrectos.\n");
         Menu();
     }
     };
@@ -615,11 +675,10 @@ void InicioAdministrador(){
     }
 }
 
-void MenuVotante();
-
 void Menu(){
     int opc;
-    printf ("1)Votante\n2)Administrador\n0)Salir\nSu opción: ");
+    printf(RESET_COLOR "BIENVENIDO AL SISTEMA DE VOTACIÓN PARA CONSULTA SOBRE " ROJO_T "NUEVO RECTOR UTP\n");
+    printf (AZUL_T "1)Iniciar como Votante\n" ROJO_T "2)Iniciar como Administrador\n" NEGRO_T "0)Salir\n" RESET_COLOR "Su opción: ");
     scanf ("%d", &opc);
     switch(opc){
         case 1:
@@ -628,14 +687,14 @@ void Menu(){
         case 2:
         InicioAdministrador();
         break;
-        }
     }
+}
     
 void MenuAdmin(int admin){
-    printf("BIENVENIDO %s\n", admins[admin].nombre); //Xd
+    printf(RESET_COLOR "BIENVENIDO " ROJO_T "%s\n" RESET_COLOR, admins[admin].nombre);
     printf("Ingrese lo que desea realizar:\n");
     int opc;
-    printf("1) Registrar votante\n2)Eliminar datos de votante\n3)Consultar datos de los votantes\n4)Consultas\n5)Finalizar(ESTO CIERRA LOS VOTOS)\n6)Salir.\n");
+    printf("1) Registrar votante\n2) Eliminar datos de votante\n3) Consultar datos de los votantes\n4) Consultas\n5) Finalizar (ESTO CIERRA LOS VOTOS)\n" ROJO_T "6) Salir.\n" RESET_COLOR);
     scanf("%d", &opc);
     switch (opc)
     {
@@ -656,7 +715,7 @@ void MenuAdmin(int admin){
     MenuAdmin(admin);
         break;
     case 6: 
-    Menu(admin);
+    Menu();
         break;
     default:
     printf ("opción no válida");
@@ -670,7 +729,7 @@ void MenuAdmin(int admin){
 void MenuHistograma(){
     int opc;
     printf ("Ingrese el histograma que desee ver:\n");
-    printf ("1)Estudiantes \n2)Egresados \n3)Docentes \n4)Administrativos ");
+    printf ("1) Estudiantes\n2) Egresados\n3) Docentes\n4) Administrativos");
     scanf ("%d", &opc);
     switch (opc)
     {
