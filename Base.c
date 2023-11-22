@@ -175,39 +175,67 @@ void ConsultarVotantes() //Opción del administrador para consultar los datos de
     fclose(archivo);
 }
 
-int Votacion(int tipo)
+void Votacion(int tipo)
 {
+    FILE *archivo = fopen("Candidatos.txt", "r+");
+    struct Candidato Candidatos[6];
+    int n = fread(Candidatos, sizeof(struct Candidato), 6, archivo);
     int op;
-    printf ("Ingrese su candidato a votar:");
-    printf ("1)LUIS FERNANDO GAVIRIA TRUJILLO\n2)CARLOS ALFONSO VICTORIA MENA\n3)GIOVANNI ARIAS\n4)ALEXANDER MOLINA CABRERA\n5)JUAN CARLOS GUTIERREZ ARIAS\n6)VOTO EN BLANCO\n");
+    do{
+    printf ("Ingrese su candidato a votar:\n");
+    printf ("1)LUIS FERNANDO GAVIRIA TRUJILLO\n2)CARLOS ALFONSO VICTORIA MENA\n3)GIOVANNI ARIAS\n4)JUAN CARLOS GUTIERREZ ARIAS\n5)ALEXANDER MOLINA CABRERA\n6)VOTO EN BLANCO\n");
     scanf("%d", &op);
+    if(op<1 || op>6)
+    {
+        printf("Opción inválida.\n");
+    };
+    }while(op<1 || op>6);
     printf("Sí desea cancelar ingrese '0'. Para confirmar presione cualquier otra tecla\n");
+    getchar();
     char c = getchar();
     if(c == '0')
     {
-        return 0;
+        printf("Cancelado.\n");
+        Menu();
     }
     else
     {
         switch(tipo)
         {
             case 1:
-
+                Candidatos[op-1].votos.votosEstudiantes = Candidatos[op-1].votos.votosEstudiantes + 1;
             break;
 
             case 2:
-
+                Candidatos[op-1].votos.votosEgresados = Candidatos[op-1].votos.votosEgresados + 1;
             break;
 
             case 3:
-
+                Candidatos[op-1].votos.votosDocentes = Candidatos[op-1].votos.votosDocentes + 1;
             break;
 
             case 4:
-
+                Candidatos[op-1].votos.votosAdministrativos = Candidatos[op-1].votos.votosAdministrativos + 1;
             break;
         }
     }
+
+    FILE *archivoS = fopen("CandidatosNuevo.txt", "w");
+    fwrite(Candidatos, sizeof(struct Candidato), n, archivoS);
+    fclose(archivoS);
+    fclose(archivo);
+
+    if(remove("Candidatos.txt") != 0)
+    {
+        printf("ErrorE.");
+    };
+    Sleep(1);
+    if(rename("CandidatosNuevo.txt", "Candidatos.txt") != 0)
+    {
+        printf("ErrorR.");
+    };
+
+    Menu();
 }
 
 void InicioVotante()
@@ -598,7 +626,7 @@ int main(){
     srand(time(NULL));
     registros = registro();
     system("CLS");
-    printf("%d\n", registros);
-    
-    //Menu();
+    //printf("%d\n", registros);
+
+    Menu();
 }
