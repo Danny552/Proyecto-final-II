@@ -102,23 +102,52 @@ struct Candidato Candidatos[6];
 
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
-    getchar();
+    system("CLS");
+    int i = 0;
+    bool repite;
+    fflush(stdin);
+    struct Votante VR[registros];
     FILE *archdisco;
-    archdisco = fopen("files//Votantes.txt", "at+");
-    printf("Ingrese código del votante a registrar: ");
-    gets(Votantes[registros].codigo);
+    archdisco = fopen("files//Votantes.txt", "r");
+    fread(VR,sizeof(struct Votante), registros, archdisco);
+
+    fread(VR, sizeof(struct Votante), 1, archdisco);
+
+    do{
+        repite = false;
+        printf("Ingrese código del votante a registrar: ");
+        gets(Votantes[registros].codigo);
+
+        for(i=0;i<registros;i++)
+        {
+            if(strcmp(VR[i].codigo, Votantes[registros].codigo) != 0)
+            {
+            }
+            else{
+                repite = true;
+                printf(ROJO_T "Código ya registrado, intente de nuevo.\n");
+                printf(". ");
+                Sleep(1000);
+                printf(". ");
+                Sleep(1000);
+                printf("." RESET_COLOR);
+                Sleep(1000);
+                system("CLS");
+            }
+        }
+    }while(repite);
 
     printf("Ingrese nombre del votante a registrar: ");
     gets(Votantes[registros].nombre);
 
     char c;
-    int i, a;
+    int a;
     for(i=0;i<10;i++)
     {
         do
         {
             a = rand() % 123;
-        }while( (a<33) || (a==123) || (a>90 && a<97) || (a>58 && a<63));
+        }while( (a<48) || (a>57 && a<65) || (a>90 && a<97) || (a>122));
         c = a;
         Votantes[registros].clave[i] = c;
     }
@@ -128,7 +157,8 @@ void RegistrarVotante() //Opción para el administrativo para registrar un votan
     scanf("%d", &Votantes[registros].tipo);
 
     Votantes[registros].voto = 0;
-
+    fclose(archdisco);
+    archdisco = fopen("files//Votantes.txt", "at+");
     fwrite(&Votantes[registros],sizeof(struct Votante),1,archdisco);
     fclose(archdisco);
 
@@ -324,29 +354,43 @@ void InicioVotante()
     printf("Ingrese su clave: ");
     gets(clave);
 
-    struct Votante Votantes;
+    struct Votante Votantes[registros];
     FILE *archivo = fopen("files//Votantes.txt", "r");
     
-    if(fread(&Votantes, sizeof(struct Votante), 1, archivo) == 1)
+    if(fread(&Votantes, sizeof(struct Votante), registros, archivo) == registros)
     {
     for(i=0;i<registros;i++)
     {
-        if(strcmp(codigo, Votantes.codigo)==0 && strcmp(clave, Votantes.clave)==0)
+        if(strcmp(codigo, Votantes[i].codigo)==0 && strcmp(clave, Votantes[i].clave)==0)
         {
-            system("CLS");
-            Votacion(Votantes.tipo);
-            credencia = true;
-            break;
+            if(Votantes[i].voto)
+            {
+                printf(ROJO_T "Ya has votado.\n");
+                printf(". ");
+                Sleep(1000);
+                printf(". ");
+                Sleep(1000);
+                printf("." RESET_COLOR);
+                Sleep(1000);
+                break;
+            }
+            else{
+                system("CLS");
+                Votacion(Votantes[i].tipo);
+                credencia = true;
+                break;
+            }
         };
     }
+    fclose(archivo);
     if(!credencia)
     {
-        printf(RESET_COLOR "Clave o código incorrectos.\n");
+        printf(ROJO_T "Clave o código incorrectos.\n");
         printf(". ");
         Sleep(1000);
         printf(". ");
         Sleep(1000);
-        printf(".");
+        printf("." RESET_COLOR);
         Sleep(1000);
         system("CLS");
         Menu();
