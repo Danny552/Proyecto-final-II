@@ -76,12 +76,11 @@ struct Votos
 struct Candidato
 {
     char nombre[60]; //Nombre
-    char codigo[12]; //Documento identidad
     char nTar; //Número en el tarjetón
     struct Votos votos; //Cantidad de votos a favor
 };
 
-struct Candidato
+struct Candidato Candidatos[6];
 
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
@@ -600,5 +599,6 @@ int main(){
     registros = registro();
     system("CLS");
     printf("%d\n", registros);
+    
     //Menu();
 }
