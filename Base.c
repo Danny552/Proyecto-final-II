@@ -4,7 +4,7 @@
 #include <conio.h>
 #include <windows.h>
 #include <time.h>
-#include <locale.h>
+#include <wchar.h>
 
 #define RESET_COLOR     "\x1b[0m"
 #define NEGRO_T         "\x1b[30m"
@@ -139,34 +139,46 @@ void RegistrarVotante() //Opción para el administrativo para registrar un votan
 
 void EliminarVotante() //Opción del Admin para eliminar un votante
 {
+    int i = 0, j = 0;
     FILE *archivo = fopen("files//Votantes.txt", "r"); //Entradas
     FILE *temporal = fopen("files//temporal.txt", "w"); //Temporales
+
+    struct Votante Votantes[registros];
+    struct Votante VotantesT[registros];
     
     char cedulaElim[12];
+    fflush(stdin);
     printf("Ingrese el código del votante que desea eliminar: ");
     gets(cedulaElim);
 
-    char linea[500];
-
-    while(fgets(linea, sizeof(linea), archivo) != NULL)
+    while(fread(&Votantes[i], sizeof(struct Votante), 1, archivo) == 1 && i<=registros)
     {
-        if(strstr(linea, cedulaElim) == NULL)
+        if(strcmp(Votantes[i].codigo, cedulaElim) != 0)
         {
-            fputs(linea, temporal);
+            strcpy(VotantesT[j].codigo, Votantes[i].codigo);
+            strcpy(VotantesT[j].nombre, Votantes[i].nombre);
+            strcpy(VotantesT[j].clave, Votantes[i].clave);
+            VotantesT[j].tipo = Votantes[i].tipo;
+            VotantesT[j].voto = Votantes[i].voto;
+            fwrite(&VotantesT[j], sizeof(struct Votante), 1, temporal);
+            j++;
         }
+        else{
+            registros--;
+            modificarCantidadRegistros(registros);
+        }
+        i++;
     }
 
     fclose(archivo);
     fclose(temporal);
-    remove("archivo.txt");
-    rename("temporal.txt", "Votantes.txt");
-
-    registros--;
-    modificarCantidadRegistros(registros);
+    remove("files//Votantes.txt");
+    rename("files//temporal.txt", "files//Votantes.txt");
 }
 
 void ConsultarVotantes() //Opción del administrador para consultar los datos de los votantes
 {
+    system("CLS");
     int i=0;
     FILE *archivo = fopen("files//Votantes.txt", "r");
     struct Votante Votantes;
@@ -206,6 +218,7 @@ void ConsultarVotantes() //Opción del administrador para consultar los datos de
             printf("No ha votado.\n");
         }
         i++;
+        printf("\n");
     }
     }
     fclose(archivo);
@@ -300,7 +313,9 @@ void Votacion(int tipo)
 
 void InicioVotante()
 {
-    getchar();
+    system("CLS");
+    fflush(stdin);
+    printf(AZUL_T "Inicio como Votante\n" RESET_COLOR);
     bool credencia = false;
     int i;
     char codigo[12], clave[11];    
@@ -327,6 +342,13 @@ void InicioVotante()
     if(!credencia)
     {
         printf(RESET_COLOR "Clave o código incorrectos.\n");
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
         Menu();
     }
     };
@@ -653,7 +675,9 @@ void Tabla(){
 }
 
 void InicioAdministrador(){
-    getchar();
+    system("CLS");
+    fflush(stdin);
+    printf(ROJO_T "Inicio como Administrador\n" RESET_COLOR);
     bool credencia = false;
     int i;
     char codigo[12], clave[100];    
@@ -672,6 +696,13 @@ void InicioAdministrador(){
     if(!credencia)
     {
         printf("Clave o código incorrectos.\n");
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
         Menu();
     }
 }
@@ -703,15 +734,25 @@ void MenuAdmin(int admin){
     case 1:
     RegistrarVotante();
     system("CLS");
-    printf(VERDE_T "Registrado con Exito.\n\n");
-    Sleep(3000);
+    printf(VERDE_T "Registrado con Exito.\n");
+    printf(". ");
+    Sleep(1000);
+    printf(". ");
+    Sleep(1000);
+    printf(".");
+    Sleep(1000);
     MenuAdmin(admin);
         break;
     case 2:
     EliminarVotante();
     system("CLS");
-    printf(VERDE_T "Eliminado con Exito.\n\n");
-    Sleep(3000);
+    printf(VERDE_T "Finalizado con Exito.\n");
+    printf(". ");
+    Sleep(1000);
+    printf(". ");
+    Sleep(1000);
+    printf(".");
+    Sleep(1000);
     MenuAdmin(admin);
         break;
     case 3:
