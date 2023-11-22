@@ -81,7 +81,6 @@ struct Candidato
     struct Votos votos; //Cantidad de votos a favor
 };
 
-struct Candidato
 
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
@@ -469,6 +468,105 @@ void HistogramaDocentes(){
     printf ("\nVOTOS TOTALES: %.0f", votosTOT);
 }
 
+void Tabla(){
+    float votos1D = 254;
+    float votos2D = 29;
+    float votos3D = 0;
+    float votos4D = 179;
+    float votos5D = 0;
+    float votos6D = 13;
+    float votosTOTD = votos1D + votos2D + votos3D + votos4D + votos5D + votos6D;  
+
+    
+    float votos1ES = 1378;
+    float votos2ES = 1086;
+    float votos3ES = 33;
+    float votos4ES = 5541;
+    float votos5ES = 52;
+    float votos6ES = 453;
+    float votosTOTES = votos1ES + votos2ES + votos3ES + votos4ES + votos5ES + votos6ES;
+
+
+    float votos1EG = 1913;
+    float votos2EG = 493;
+    float votos3EG = 26;
+    float votos4EG = 3371;
+    float votos5EG = 40;
+    float votos6EG = 105;
+    float votosTOTEG = votos1EG + votos2EG + votos3EG + votos4EG + votos5EG + votos6EG;
+
+
+    float votos1A = 235;
+    float votos2A = 13;
+    float votos3A = 3;
+    float votos4A = 156;
+    float votos5A = 0;
+    float votos6A = 6;
+    float votosTOTA = votos1A + votos2A + votos3A + votos4A + votos5A + votos6A;
+
+// valores: docentes 40%, estudiantes 35%, admin 10%, egresados 15%
+ //GAVIRIA
+    float porcentajeGAD = (votos1D / votosTOTD) * 100;
+    float porcentajeGAES = (votos1ES / votosTOTES) * 100;
+    float porcentajeGAEG = (votos1EG / votosTOTEG) * 100;
+    float porcentajeGAA = (votos1A / votosTOTA) * 100;
+
+    float ponderadoGA = (porcentajeGAD * 0.4) + (porcentajeGAES * 0.35) + (porcentajeGAEG * 0.15) + (porcentajeGAA * 0.1);
+ //VICTORIA
+    float porcentajeVID = (votos2D / votosTOTD) * 100;
+    float porcentajeVIES = (votos2ES / votosTOTES) * 100;
+    float porcentajeVIEG = (votos2EG / votosTOTEG) * 100;
+    float porcentajeVIA = (votos2A / votosTOTA) * 100;
+
+    float ponderadoVI = (porcentajeVID * 0.4) + (porcentajeVIES * 0.35) + (porcentajeVIEG * 0.15) + (porcentajeVIA * 0.1);
+ //GIOVANNI
+    float porcentajeGID = (votos3D / votosTOTD) * 100;
+    float porcentajeGIES = (votos3ES / votosTOTES) * 100;
+    float porcentajeGIEG = (votos3EG / votosTOTEG) * 100;
+    float porcentajeGIA = (votos3A / votosTOTA) * 100;
+
+    float ponderadoGI = (porcentajeGID * 0.4) + (porcentajeGIES * 0.35) + (porcentajeGIEG * 0.15) + (porcentajeGIA * 0.1);
+ //MOLINA
+    float porcentajeMOD = (votos4D / votosTOTD) * 100;
+    float porcentajeMOES = (votos4ES / votosTOTES) * 100;
+    float porcentajeMOEG = (votos4EG / votosTOTEG) * 100;
+    float porcentajeMOA = (votos4A / votosTOTA) * 100;
+
+    float ponderadoMO = (porcentajeMOD * 0.4) + (porcentajeMOES * 0.35) + (porcentajeMOEG * 0.15) + (porcentajeMOA * 0.1);
+ //GUTIERREZ
+    float porcentajeGUD = (votos5D / votosTOTD) * 100;
+    float porcentajeGUES = (votos5ES / votosTOTES) * 100;
+    float porcentajeGUEG = (votos5EG / votosTOTEG) * 100;
+    float porcentajeGUA = (votos5A / votosTOTA) * 100;
+
+    float ponderadoGU = (porcentajeGUD * 0.4) + (porcentajeGUES * 0.35) + (porcentajeGUEG * 0.15) + (porcentajeGUA * 0.1);
+ //BLANCO
+    float porcentajeBLAD = (votos6D / votosTOTD) * 100;
+    float porcentajeBLAES = (votos6ES / votosTOTES) * 100;
+    float porcentajeBLAEG = (votos6EG / votosTOTEG) * 100;
+    float porcentajeBLAA = (votos6A / votosTOTA) * 100;
+
+    float ponderadoBLA = (porcentajeBLAD * 0.4) + (porcentajeBLAES * 0.35) + (porcentajeBLAEG * 0.15) + (porcentajeBLAA * 0.1);
+
+    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf ("|            CANDIDATOS            |   DOCENTES   |   ESTUDIANTES   |   EGRESADOS   |   ADMINISTRATIVOS   |   TOTAL  NETO   | TOTAL  PONDERADO |\n");
+    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf ("|1. LUIS FERNANDO GAVIRIA TRUJILLO |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos1D, votos1ES, votos1EG, votos1A, (votos1A + votos1D + votos1EG + votos1ES), ponderadoGA);
+    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf ("|2. CARLOS ALFONSO VICTORIA MENA   |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos2D, votos2ES, votos2EG, votos2A, (votos2A + votos2D + votos2EG + votos2ES), ponderadoVI);
+   printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf ("|3. GIOVANNI ARIAS                 |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos3D, votos3ES, votos3EG, votos3A, (votos3A + votos3D + votos3EG + votos3ES), ponderadoGI);
+   printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf ("|5. ALEXANDER MOLINA CABRERA       |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos4D, votos4ES, votos4EG, votos4A, (votos4A + votos4D + votos4EG + votos4ES), ponderadoMO);
+   printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf ("|6. JUAN CARLOS GUTIERREZ ARIAS    |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos5D, votos5ES, votos5EG, votos5A, (votos5A + votos5D + votos5EG + votos5ES), ponderadoGU);
+   printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf ("|6. VOTO EN BLANCO                 |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos6D, votos6ES, votos6EG, votos6A, (votos6A + votos6D + votos6EG + votos6ES), ponderadoBLA);
+   printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+    printf ("|   TOTAL VOTOS ESTAMENTO          |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.f%%     |\n", votosTOTD, votosTOTES, votosTOTEG, votosTOTA, (votosTOTA + votosTOTD + votosTOTEG + votosTOTES), 100.0);
+   printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+}
+
 void InicioAdministrador(){
     getchar();
     bool credencia = false;
@@ -602,4 +700,5 @@ int main(){
     system("CLS");
     printf("%d\n", registros);
     //Menu();
+    Tabla();
 }
