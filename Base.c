@@ -4,6 +4,7 @@
 #include <conio.h>
 #include <windows.h>
 #include <time.h>
+#include <locale.h>
 
 #define RESET_COLOR     "\x1b[0m"
 #define NEGRO_T         "\x1b[30m"
@@ -80,7 +81,7 @@ struct Admin
     char clave[100]; //clave establecida
 };
 
-struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "********"} , {"1137059546", "Juan Camilo Cano", "contraseña"} };
+struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "teodioracket23"} , {"1137059546", "Juan Camilo Cano", "clave"} };
 
 struct Votos
 {
@@ -676,11 +677,11 @@ void InicioAdministrador(){
 }
 
 void Menu(){
-    int opc;
+    int opci;
     printf(RESET_COLOR "BIENVENIDO AL SISTEMA DE VOTACIÓN PARA CONSULTA SOBRE " ROJO_T "NUEVO RECTOR UTP\n");
     printf (AZUL_T "1)Iniciar como Votante\n" ROJO_T "2)Iniciar como Administrador\n" NEGRO_T "0)Salir\n" RESET_COLOR "Su opción: ");
-    scanf ("%d", &opc);
-    switch(opc){
+    scanf ("%d", &opci);
+    switch(opci){
         case 1:
         InicioVotante(); 
         break;
@@ -691,23 +692,34 @@ void Menu(){
 }
     
 void MenuAdmin(int admin){
+    system("CLS");
     printf(RESET_COLOR "BIENVENIDO " ROJO_T "%s\n" RESET_COLOR, admins[admin].nombre);
     printf("Ingrese lo que desea realizar:\n");
     int opc;
-    printf("1) Registrar votante\n2) Eliminar datos de votante\n3) Consultar datos de los votantes\n4) Consultas\n5) Finalizar (ESTO CIERRA LOS VOTOS)\n" ROJO_T "6) Salir.\n" RESET_COLOR);
+    printf("1) Registrar votante\n2) Eliminar datos de votante\n3) Consultar datos de los votantes\n4) Consultas\n5) Finalizar (ESTO CIERRA LOS VOTOS)\n" ROJO_T "6) Salir.\n" RESET_COLOR "Su opción: ");
     scanf("%d", &opc);
     switch (opc)
     {
     case 1:
     RegistrarVotante();
+    system("CLS");
+    printf(VERDE_T "Registrado con Exito.\n\n");
+    Sleep(3000);
     MenuAdmin(admin);
         break;
     case 2:
     EliminarVotante();
+    system("CLS");
+    printf(VERDE_T "Eliminado con Exito.\n\n");
+    Sleep(3000);
     MenuAdmin(admin);
         break;
     case 3:
     ConsultarVotantes();
+    fflush(stdin);
+    printf("\nPulse una tecla para continuar.");
+    getchar();
+    system("CLS");
     MenuAdmin(admin);
         break;
     case 4:
@@ -715,11 +727,12 @@ void MenuAdmin(int admin){
     MenuAdmin(admin);
         break;
     case 6: 
+    system("CLS");
     Menu();
         break;
     default:
-    printf ("opción no válida");
-    Sleep(100);
+    printf(ROJO_T "opción no válida");
+    Sleep(3000);
     system("Clear");
     MenuAdmin(admin);
         break;
@@ -729,47 +742,74 @@ void MenuAdmin(int admin){
 void MenuHistograma(){
     int opc;
     printf ("Ingrese el histograma que desee ver:\n");
-    printf ("1) Estudiantes\n2) Egresados\n3) Docentes\n4) Administrativos");
+    printf ("1) Estudiantes\n2) Egresados\n3) Docentes\n4) Administrativos\nSu opción: ");
     scanf ("%d", &opc);
     switch (opc)
     {
     case 1:
+        system("CLS");
         HistogramaEstudiantes();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
         break;
     case 2:
+        system("CLS");
         HistogramaEgresados();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
         break;
     case 3:
+        system("CLS");
         HistogramaDocentes();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
         break;
     case 4:
+        system("CLS");
         HistogramaAdministrativos();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
         break;
     default:
-    printf ("opción no valida");
+    printf ("opción no valida.");
+    Sleep(3000);
     system("CLS");
         break;
     }
 }
 
 void MenuConsultas(){
+    system("CLS");
     do{
-    printf("Ingrese lo que desee ver: ");
-    printf("\n1)Tabla de datos\n2)Histograma de frecuencia de votos\n3)Salir");
+    printf(RESET_COLOR "Ingrese lo que desee ver: ");
+    printf("\n1) Tabla de datos\n2) Histograma de frecuencia de votos\n3) Salir\nSu opción: ");
     int opc;
     scanf ("%d", &opc);
     switch (opc)
     {
         case 1:
-    Tabla();
-    break;
+        system("CLS");
+        Tabla();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
+        break;
+
         case 2:
-    MenuHistograma();
-    break;
+        system("CLS");
+        MenuHistograma();        
+        break;
+
         case 3:
-    break;
-    default:
-    printf("Opción no válida.\n");
+        system("CLS");
+        break;
+
+        default:
+        printf("Opción no válida.\n");
         break;
     }
     } while (0);
