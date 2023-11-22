@@ -71,7 +71,6 @@ struct Votos
     int votosDocentes; //Cantidad de votos por parte de docentes
     int votosEgresados; //Cantidad de votos por parte de egresados
     int votosAdministrativos; //Cantidad de votos por parte de administrativos
-    int totales;
 };
 
 struct Candidato
@@ -81,6 +80,8 @@ struct Candidato
     char nTar; //Número en el tarjetón
     struct Votos votos; //Cantidad de votos a favor
 };
+
+struct Candidato
 
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
@@ -172,6 +173,75 @@ void ConsultarVotantes() //Opción del administrador para consultar los datos de
         i++;
     }
     }
+    fclose(archivo);
+}
+
+int Votacion(int tipo)
+{
+    int op;
+    printf ("Ingrese su candidato a votar:");
+    printf ("1)LUIS FERNANDO GAVIRIA TRUJILLO\n2)CARLOS ALFONSO VICTORIA MENA\n3)GIOVANNI ARIAS\n4)ALEXANDER MOLINA CABRERA\n5)JUAN CARLOS GUTIERREZ ARIAS\n6)VOTO EN BLANCO\n");
+    scanf("%d", &op);
+    printf("Sí desea cancelar ingrese '0'. Para confirmar presione cualquier otra tecla\n");
+    char c = getchar();
+    if(c == '0')
+    {
+        return 0;
+    }
+    else
+    {
+        switch(tipo)
+        {
+            case 1:
+
+            break;
+
+            case 2:
+
+            break;
+
+            case 3:
+
+            break;
+
+            case 4:
+
+            break;
+        }
+    }
+}
+
+void InicioVotante()
+{
+    getchar();
+    bool credencia = false;
+    int i;
+    char codigo[12], clave[11];    
+    printf("Ingrese su código: ");
+    gets(codigo);
+    printf("Ingrese su clave: ");
+    gets(clave);
+
+    struct Votante Votantes;
+    FILE *archivo = fopen("files//Votantes.txt", "r");
+    
+    if(fread(&Votantes, sizeof(struct Votante), 1, archivo) == 1)
+    {
+    for(i=0;i<registros;i++)
+    {
+        if(strcmp(codigo, Votantes.codigo)==0 && strcmp(clave, Votantes.clave)==0)
+        {
+            Votacion(Votantes.tipo);
+            credencia = true;
+            break;
+        };
+    }
+    if(!credencia)
+    {
+        printf("Clave o código incorrectos.\n");
+        Menu();
+    }
+    };
 }
 
 void ConsultarVotosESpecificos()
@@ -431,7 +501,7 @@ void Menu(){
     scanf ("%d", &opc);
     switch(opc){
         case 1:
-        MenuVotante(); 
+        InicioVotante(); 
         break;
         case 2:
         InicioAdministrador();
@@ -500,15 +570,6 @@ void MenuHistograma(){
     }
 }
 
-void MenuVotante(){
-    int id;
-    printf ("Ingrese su número de identificación: ");
-    scanf ("%d", &id);
-    printf ("Ingrese su clave (Dada por el administrador):");
-    scanf ("%d", &id);
-    printf ("Ingrese su candidato a votar:");
-    printf ("1)LUIS FERNANDO GAVIRIA TRUJILLO\n2)CARLOS ALFONSO VICTORIA MENA\n3)GIOVANNI ARIAS\n4)ALEXANDER MOLINA CABRERA\n5)JUAN CARLOS GUTIERREZ ARIAS\n6)VOTO EN BLANCO\n");
-}
 void MenuConsultas(){
     do{
     printf("Ingrese lo que desee ver: ");
@@ -539,5 +600,5 @@ int main(){
     registros = registro();
     system("CLS");
     printf("%d\n", registros);
-    Menu();
+    //Menu();
 }
