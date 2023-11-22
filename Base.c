@@ -493,6 +493,7 @@ void MenuHistograma(){
         break;
     case 4:
         HistogramaAdministrativos();
+        break;
     default:
     printf ("opción no valida");
     system("CLS");
