@@ -80,7 +80,7 @@ struct Admin
     char clave[100]; //clave establecida
 };
 
-struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "********"} , {"1137059546", "Juan Camilo Cano", "*********"} };
+struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "********"} , {"1137059546", "Juan Camilo Cano", "contraseña"} };
 
 struct Votos
 {
