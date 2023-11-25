@@ -327,7 +327,7 @@ void HistogramaEstudiantes(){
         }
     }
     printf("| %.2f%%", (votos6 / votosTOT) * 100);
-    printf ("\nVOTOS TOTALES: %.0f", votosTOT);
+    printf ("\nVOTOS TOTALES: %.0f\n", votosTOT);
 }
 
 void HistogramaEgresados(){
@@ -381,7 +381,7 @@ void HistogramaEgresados(){
         }
     }
     printf("| %.2f%%", (votos6 / votosTOT) * 100);
-    printf ("\nVOTOS TOTALES: %.0f", votosTOT);
+    printf ("\nVOTOS TOTALES: %.0f\n", votosTOT);
 }
 
 void HistogramaAdministrativos(){
@@ -435,7 +435,7 @@ void HistogramaAdministrativos(){
         }
     }
     printf("| %.2f%%", (votos6 / votosTOT) * 100);
-    printf ("\nVOTOS TOTALES: %.0f", votosTOT);
+    printf ("\nVOTOS TOTALES: %.0f\n", votosTOT);
 }
 
 void HistogramaDocentes(){
@@ -489,7 +489,7 @@ void HistogramaDocentes(){
         }
     }
     printf("| %.2f%%", (votos6 / votosTOT) * 100);
-    printf ("\nVOTOS TOTALES: %.0f", votosTOT);
+    printf ("\nVOTOS TOTALES: %.0f\n", votosTOT);
 }
 
 void Tabla(){
