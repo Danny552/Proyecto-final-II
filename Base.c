@@ -4,7 +4,25 @@
 #include <conio.h>
 #include <windows.h>
 #include <time.h>
+#include <wchar.h>
 
+#define RESET_COLOR     "\x1b[0m"
+#define NEGRO_T         "\x1b[30m"
+#define NEGRO_F         "\x1b[40m"
+#define ROJO_T          "\x1b[31m"
+#define ROJO_F          "\x1b[41m"
+#define VERDE_T         "\x1b[32m"
+#define VERDE_F         "\x1b[42m"
+#define AMARILLO_T      "\x1b[33m"
+#define AMARILLO_F      "\x1b[43m"
+#define AZUL_T          "\x1b[34m"
+#define AZUL_F          "\x1b[44m"
+#define MAGENTA_T       "\x1b[35m"
+#define MAGENTA_F       "\x1b[45m"
+#define CYAN_T          "\x1b[36m"
+#define CYAN_F          "\x1b[46m"
+#define BLANCO_T        "\x1b[37m"
+#define BLANCO_F        "\x1b[47m"
 #define MAX_Votantes 150
 
 int registro()
@@ -63,7 +81,7 @@ struct Admin
     char clave[100]; //clave establecida
 };
 
-struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "odioracket23"} , {"1137059546", "Juan Camilo Cano", "teamoracket32"} };
+struct Admin admins[2] = { {"1114150552", "Daniel Alejandro Henao", "teodioracket23"} , {"1137059546", "Juan Camilo Cano", "clave"} };
 
 struct Votos
 {
@@ -84,23 +102,52 @@ struct Candidato Candidatos[6];
 
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
-    getchar();
+    system("CLS");
+    int i = 0;
+    bool repite;
+    fflush(stdin);
+    struct Votante VR[registros];
     FILE *archdisco;
-    archdisco = fopen("files//Votantes.txt", "at+");
-    printf("Ingrese código del votante a registrar: ");
-    gets(Votantes[registros].codigo);
+    archdisco = fopen("files//Votantes.txt", "r");
+    fread(VR,sizeof(struct Votante), registros, archdisco);
+
+    fread(VR, sizeof(struct Votante), 1, archdisco);
+
+    do{
+        repite = false;
+        printf("Ingrese código del votante a registrar: ");
+        gets(Votantes[registros].codigo);
+
+        for(i=0;i<registros;i++)
+        {
+            if(strcmp(VR[i].codigo, Votantes[registros].codigo) != 0)
+            {
+            }
+            else{
+                repite = true;
+                printf(ROJO_T "Código ya registrado, intente de nuevo.\n");
+                printf(". ");
+                Sleep(1000);
+                printf(". ");
+                Sleep(1000);
+                printf("." RESET_COLOR);
+                Sleep(1000);
+                system("CLS");
+            }
+        }
+    }while(repite);
 
     printf("Ingrese nombre del votante a registrar: ");
     gets(Votantes[registros].nombre);
 
     char c;
-    int i, a;
+    int a;
     for(i=0;i<10;i++)
     {
         do
         {
             a = rand() % 123;
-        }while( (a<33) || (a==123) || (a>90 && a<97) || (a>58 && a<63));
+        }while( (a<48) || (a>57 && a<65) || (a>90 && a<97) || (a>122));
         c = a;
         Votantes[registros].clave[i] = c;
     }
@@ -110,7 +157,8 @@ void RegistrarVotante() //Opción para el administrativo para registrar un votan
     scanf("%d", &Votantes[registros].tipo);
 
     Votantes[registros].voto = 0;
-
+    fclose(archdisco);
+    archdisco = fopen("files//Votantes.txt", "at+");
     fwrite(&Votantes[registros],sizeof(struct Votante),1,archdisco);
     fclose(archdisco);
 
@@ -121,34 +169,46 @@ void RegistrarVotante() //Opción para el administrativo para registrar un votan
 
 void EliminarVotante() //Opción del Admin para eliminar un votante
 {
+    int i = 0, j = 0;
     FILE *archivo = fopen("files//Votantes.txt", "r"); //Entradas
     FILE *temporal = fopen("files//temporal.txt", "w"); //Temporales
+
+    struct Votante Votantes[registros];
+    struct Votante VotantesT[registros];
     
     char cedulaElim[12];
+    fflush(stdin);
     printf("Ingrese el código del votante que desea eliminar: ");
     gets(cedulaElim);
 
-    char linea[500];
-
-    while(fgets(linea, sizeof(linea), archivo) != NULL)
+    while(fread(&Votantes[i], sizeof(struct Votante), 1, archivo) == 1 && i<=registros)
     {
-        if(strstr(linea, cedulaElim) == NULL)
+        if(strcmp(Votantes[i].codigo, cedulaElim) != 0)
         {
-            fputs(linea, temporal);
+            strcpy(VotantesT[j].codigo, Votantes[i].codigo);
+            strcpy(VotantesT[j].nombre, Votantes[i].nombre);
+            strcpy(VotantesT[j].clave, Votantes[i].clave);
+            VotantesT[j].tipo = Votantes[i].tipo;
+            VotantesT[j].voto = Votantes[i].voto;
+            fwrite(&VotantesT[j], sizeof(struct Votante), 1, temporal);
+            j++;
         }
+        else{
+            registros--;
+            modificarCantidadRegistros(registros);
+        }
+        i++;
     }
 
     fclose(archivo);
     fclose(temporal);
-    remove("archivo.txt");
-    rename("temporal.txt", "Votantes.txt");
-
-    registros--;
-    modificarCantidadRegistros(registros);
+    remove("files//Votantes.txt");
+    rename("files//temporal.txt", "files//Votantes.txt");
 }
 
 void ConsultarVotantes() //Opción del administrador para consultar los datos de los votantes
 {
+    system("CLS");
     int i=0;
     FILE *archivo = fopen("files//Votantes.txt", "r");
     struct Votante Votantes;
@@ -161,7 +221,25 @@ void ConsultarVotantes() //Opción del administrador para consultar los datos de
         printf("Nombre: %s\n", Votantes.nombre);
         printf("Código: %s\n", Votantes.codigo);
         printf("Clave: %s\n", Votantes.clave);
-        printf("Tipo: %d\n", Votantes.tipo);
+        printf("Tipo: ");
+        switch(Votantes.tipo)
+        {
+            case 1:
+                printf(AZUL_T "1 - Estudiante\n" RESET_COLOR);
+            break;
+
+            case 2:
+                printf(ROJO_T "2 - Egresado\n" RESET_COLOR);
+            break;
+
+            case 3:
+                printf(NEGRO_T "3 - Docente\n" RESET_COLOR);
+            break;
+            
+            case 4:
+                printf(VERDE_T "4 - Administrativo\n" RESET_COLOR);
+            break;
+        }
         if(Votantes.voto)
         {
             printf("Ya votó.\n");
@@ -170,6 +248,7 @@ void ConsultarVotantes() //Opción del administrador para consultar los datos de
             printf("No ha votado.\n");
         }
         i++;
+        printf("\n");
     }
     }
     fclose(archivo);
@@ -181,21 +260,47 @@ void Votacion(int tipo)
     struct Candidato Candidatos[6];
     int n = fread(Candidatos, sizeof(struct Candidato), 6, archivo);
     int op;
+    printf("Bienvenido ");
+    switch(tipo)
+    {
+        case 1:
+            printf(AZUL_T "Estudiante\n" RESET_COLOR);
+        break;
+
+        case 2:
+            printf(ROJO_T "Egresado\n" RESET_COLOR);
+        break;
+
+        case 3:
+            printf(NEGRO_T "Docente\n" RESET_COLOR);
+        break;
+
+        case 4:
+            printf(VERDE_T "Administrativo\n" RESET_COLOR);
+        break;
+    }
     do{
     printf ("Ingrese su candidato a votar:\n");
-    printf ("1)LUIS FERNANDO GAVIRIA TRUJILLO\n2)CARLOS ALFONSO VICTORIA MENA\n3)GIOVANNI ARIAS\n4)JUAN CARLOS GUTIERREZ ARIAS\n5)ALEXANDER MOLINA CABRERA\n6)VOTO EN BLANCO\n");
+    printf (NEGRO_T "1)LUIS FERNANDO GAVIRIA TRUJILLO\n" VERDE_T "2)CARLOS ALFONSO VICTORIA MENA\n" AMARILLO_T "3)GIOVANNI ARIAS\n" MAGENTA_T "4)JUAN CARLOS GUTIERREZ ARIAS\n" CYAN_T "5)ALEXANDER MOLINA CABRERA\n" BLANCO_T "6)VOTO EN BLANCO\n" RESET_COLOR);
     scanf("%d", &op);
     if(op<1 || op>6)
     {
-        printf("Opción inválida.\n");
+        printf(ROJO_T "Opción inválida.\n");
     };
     }while(op<1 || op>6);
-    printf("Sí desea cancelar ingrese '0'. Para confirmar presione cualquier otra tecla\n");
+    printf(ROJO_T "Si desea cancelar ingrese '0'. Para confirmar presione cualquier otra tecla\n" RESET_COLOR);
     getchar();
     char c = getchar();
     if(c == '0')
     {
-        printf("Cancelado.\n");
+        printf(ROJO_T "Cancelado.\n" RESET_COLOR);
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
         Menu();
     }
     else
@@ -227,45 +332,67 @@ void Votacion(int tipo)
 
     if(remove("Candidatos.txt") != 0)
     {
-        printf("ErrorE.");
+        printf(ROJO_T "ErrorE.\n" RESET_COLOR);
     };
     Sleep(1);
     if(rename("CandidatosNuevo.txt", "Candidatos.txt") != 0)
     {
-        printf("ErrorR.");
+        printf(ROJO_T "ErrorR.\n" RESET_COLOR);
     };
-
-    Menu();
 }
 
 void InicioVotante()
 {
-    getchar();
+    system("CLS");
+    fflush(stdin);
+    printf(AZUL_T "Inicio como Votante\n" RESET_COLOR);
     bool credencia = false;
     int i;
     char codigo[12], clave[11];    
-    printf("Ingrese su código: ");
+    printf(RESET_COLOR "Ingrese su código: ");
     gets(codigo);
     printf("Ingrese su clave: ");
     gets(clave);
 
-    struct Votante Votantes;
+    struct Votante Votantes[registros];
     FILE *archivo = fopen("files//Votantes.txt", "r");
     
-    if(fread(&Votantes, sizeof(struct Votante), 1, archivo) == 1)
+    if(fread(&Votantes, sizeof(struct Votante), registros, archivo) == registros)
     {
     for(i=0;i<registros;i++)
     {
-        if(strcmp(codigo, Votantes.codigo)==0 && strcmp(clave, Votantes.clave)==0)
+        if(strcmp(codigo, Votantes[i].codigo)==0 && strcmp(clave, Votantes[i].clave)==0)
         {
-            Votacion(Votantes.tipo);
-            credencia = true;
-            break;
+            if(Votantes[i].voto)
+            {
+                printf(ROJO_T "Ya has votado.\n");
+                printf(". ");
+                Sleep(1000);
+                printf(". ");
+                Sleep(1000);
+                printf("." RESET_COLOR);
+                Sleep(1000);
+                break;
+            }
+            else{
+                system("CLS");
+                Votacion(Votantes[i].tipo);
+                credencia = true;
+                break;
+            }
         };
     }
+    fclose(archivo);
     if(!credencia)
     {
-        printf("Clave o código incorrectos.\n");
+        printf(ROJO_T "Clave o código incorrectos.\n");
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf("." RESET_COLOR);
+        Sleep(1000);
+        system("CLS");
         Menu();
     }
     };
@@ -592,7 +719,9 @@ void Tabla(){
 }
 
 void InicioAdministrador(){
-    getchar();
+    system("CLS");
+    fflush(stdin);
+    printf(ROJO_T "Inicio como Administrador\n" RESET_COLOR);
     bool credencia = false;
     int i;
     char codigo[12], clave[100];    
@@ -611,44 +740,71 @@ void InicioAdministrador(){
     if(!credencia)
     {
         printf("Clave o código incorrectos.\n");
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
         Menu();
     }
 }
 
-void MenuVotante();
-
 void Menu(){
-    int opc;
-    printf ("1)Votante\n2)Administrador\n0)Salir\nSu opción: ");
-    scanf ("%d", &opc);
-    switch(opc){
+    int opci;
+    printf(RESET_COLOR "BIENVENIDO AL SISTEMA DE VOTACIÓN PARA CONSULTA SOBRE " ROJO_T "NUEVO RECTOR UTP\n");
+    printf (AZUL_T "1)Iniciar como Votante\n" ROJO_T "2)Iniciar como Administrador\n" NEGRO_T "0)Salir\n" RESET_COLOR "Su opción: ");
+    scanf ("%d", &opci);
+    switch(opci){
         case 1:
         InicioVotante(); 
         break;
         case 2:
         InicioAdministrador();
         break;
-        }
     }
+}
     
 void MenuAdmin(int admin){
-    printf("BIENVENIDO %s\n", admins[admin].nombre); //Xd
+    system("CLS");
+    printf(RESET_COLOR "BIENVENIDO " ROJO_T "%s\n" RESET_COLOR, admins[admin].nombre);
     printf("Ingrese lo que desea realizar:\n");
     int opc;
-    printf("1) Registrar votante\n2)Eliminar datos de votante\n3)Consultar datos de los votantes\n4)Consultas\n5)Finalizar(ESTO CIERRA LOS VOTOS)\n6)Salir.\n");
+    printf("1) Registrar votante\n2) Eliminar datos de votante\n3) Consultar datos de los votantes\n4) Consultas\n5) Finalizar (ESTO CIERRA LOS VOTOS)\n" ROJO_T "6) Salir.\n" RESET_COLOR "Su opción: ");
     scanf("%d", &opc);
     switch (opc)
     {
     case 1:
     RegistrarVotante();
+    system("CLS");
+    printf(VERDE_T "Registrado con Exito.\n");
+    printf(". ");
+    Sleep(1000);
+    printf(". ");
+    Sleep(1000);
+    printf(".");
+    Sleep(1000);
     MenuAdmin(admin);
         break;
     case 2:
     EliminarVotante();
+    system("CLS");
+    printf(VERDE_T "Finalizado con Exito.\n");
+    printf(". ");
+    Sleep(1000);
+    printf(". ");
+    Sleep(1000);
+    printf(".");
+    Sleep(1000);
     MenuAdmin(admin);
         break;
     case 3:
     ConsultarVotantes();
+    fflush(stdin);
+    printf("\nPulse una tecla para continuar.");
+    getchar();
+    system("CLS");
     MenuAdmin(admin);
         break;
     case 4:
@@ -656,11 +812,12 @@ void MenuAdmin(int admin){
     MenuAdmin(admin);
         break;
     case 6: 
-    Menu(admin);
+    system("CLS");
+    Menu();
         break;
     default:
-    printf ("opción no válida");
-    Sleep(100);
+    printf(ROJO_T "opción no válida");
+    Sleep(3000);
     system("Clear");
     MenuAdmin(admin);
         break;
@@ -670,47 +827,74 @@ void MenuAdmin(int admin){
 void MenuHistograma(){
     int opc;
     printf ("Ingrese el histograma que desee ver:\n");
-    printf ("1)Estudiantes \n2)Egresados \n3)Docentes \n4)Administrativos ");
+    printf ("1) Estudiantes\n2) Egresados\n3) Docentes\n4) Administrativos\nSu opción: ");
     scanf ("%d", &opc);
     switch (opc)
     {
     case 1:
+        system("CLS");
         HistogramaEstudiantes();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
         break;
     case 2:
+        system("CLS");
         HistogramaEgresados();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
         break;
     case 3:
+        system("CLS");
         HistogramaDocentes();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
         break;
     case 4:
+        system("CLS");
         HistogramaAdministrativos();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
         break;
     default:
-    printf ("opción no valida");
+    printf ("opción no valida.");
+    Sleep(3000);
     system("CLS");
         break;
     }
 }
 
 void MenuConsultas(){
+    system("CLS");
     do{
-    printf("Ingrese lo que desee ver: ");
-    printf("\n1)Tabla de datos\n2)Histograma de frecuencia de votos\n3)Salir");
+    printf(RESET_COLOR "Ingrese lo que desee ver: ");
+    printf("\n1) Tabla de datos\n2) Histograma de frecuencia de votos\n3) Salir\nSu opción: ");
     int opc;
     scanf ("%d", &opc);
     switch (opc)
     {
         case 1:
-    Tabla();
-    break;
+        system("CLS");
+        Tabla();
+        fflush(stdin);
+        printf("\nPulse una tecla para continuar.");
+        getchar();
+        break;
+
         case 2:
-    MenuHistograma();
-    break;
+        system("CLS");
+        MenuHistograma();        
+        break;
+
         case 3:
-    break;
-    default:
-    printf("Opción no válida.\n");
+        system("CLS");
+        break;
+
+        default:
+        printf("Opción no válida.\n");
         break;
     }
     } while (0);
