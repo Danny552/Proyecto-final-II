@@ -23,7 +23,7 @@
 #define CYAN_F          "\x1b[46m"
 #define BLANCO_T        "\x1b[37m"
 #define BLANCO_F        "\x1b[47m"
-#define MAX_Votantes 150
+#define MAX_Votantes 1000
 
 int registro()
 {
@@ -308,7 +308,7 @@ void Votacion(int tipo)
         printf(".");
         Sleep(1000);
         system("CLS");
-        Menu();
+        Votacion(tipo);
     }
     else
     {
@@ -363,6 +363,7 @@ void InicioVotante()
 
     struct Votante Votantes[registros];
     FILE *archivo = fopen("files//Votantes.txt", "r");
+    FILE *Votnuevos = fopen("files//VotantesNuev.txt", "at+");
     
     if(fread(&Votantes, sizeof(struct Votante), registros, archivo) == registros)
     {
@@ -379,17 +380,30 @@ void InicioVotante()
                 Sleep(1000);
                 printf("." RESET_COLOR);
                 Sleep(1000);
+                credencia = true;
                 break;
             }
             else{
                 system("CLS");
                 Votacion(Votantes[i].tipo);
+                Votantes[i].voto = 1;
+                printf(VERDE_T "Votación Exitosa.\n");
+                printf(". ");
+                Sleep(1000);
+                printf(". ");
+                Sleep(1000);
+                printf("." RESET_COLOR);
+                Sleep(1000);
                 credencia = true;
                 break;
             }
         };
     }
+    fwrite(&Votantes, sizeof(struct Votante), registros, Votnuevos);
     fclose(archivo);
+    fclose(Votnuevos);
+    remove("files//Votantes.txt");
+    rename("files//VotantesNuev.txt", "files//Votantes.txt");
     if(!credencia)
     {
         printf(ROJO_T "Clave o c%cdigo incorrectos.\n", 162);
@@ -822,6 +836,7 @@ void MenuAdmin(int admin){
     case 1:
     RegistrarVotante();
     system("CLS");
+    /*
     printf(VERDE_T "Registrado con Exito.\n");
     printf(". ");
     Sleep(1000);
@@ -829,6 +844,7 @@ void MenuAdmin(int admin){
     Sleep(1000);
     printf(".");
     Sleep(1000);
+    */
     MenuAdmin(admin);
         break;
     case 2:
@@ -949,6 +965,6 @@ int main(){
     registros = registro();
     system("CLS");
 
-    Instrucciones();
+    //Instrucciones();
     Menu();
 }
