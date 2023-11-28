@@ -100,6 +100,13 @@ struct Candidato
 
 struct Candidato Candidatos[6];
 
+struct ConsejoSuperior
+{
+    char nombre[100];
+    char clave[11];
+    int voto;
+};
+
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
     system("CLS");
@@ -393,7 +400,6 @@ void InicioVotante()
         printf("." RESET_COLOR);
         Sleep(1000);
         system("CLS");
-        Menu();
     }
     };
 }
@@ -747,26 +753,26 @@ void InicioAdministrador(){
         printf(".");
         Sleep(1000);
         system("CLS");
-        Menu();
     }
 }
 void Instrucciones(){
     printf ("Inicio de Sesi%cn:\nIngresa tu n%cmero de identificaci%cn personal cuando se te solicite.\n\nContrase%ca:\nUtiliza la contrase%ca que te ha proporcionado el administrador. Si no la tienes, ponte en contacto con el administrador antes de continuar.\n\nSelecciona tus Opciones:\nLee cuidadosamente las opciones de voto en la pantalla y elige a tu candidato favorito.\n\nConfirma tu Voto:\nAntes de confirmar, verifica que tus selecciones sean correctas. Una vez confirmado, no se pueden realizar cambios.\n\nFinaliza el Proceso:\nDespu%cs de confirmar tu voto, el sistema registrar%c tu elecci%cn.\n", 162, 163, 162, 164, 164, 130, 160, 162);
     system("PAUSE");
     system("CLS");
-    Menu();
 }
 void Menu(){
     int opci;
     printf(RESET_COLOR "BIENVENIDO AL SISTEMA DE VOTACI%cN PARA CONSULTA SOBRE " ROJO_T "NUEVO RECTOR UTP\n", 162);
-    printf (AZUL_T "1)Iniciar como Votante\n" AMARILLO_T "2) Revisar Instrucciones de votaci%cn\n" ROJO_T "3)Iniciar como Administrador\n" NEGRO_T "0)Salir\n" RESET_COLOR "Su opci%cn: ", 162, 162);
+    printf (AZUL_T "1) Iniciar como Votante\n" AMARILLO_T "2) Revisar Instrucciones de votaci%cn\n" ROJO_T "3) Iniciar como Administrador\n" NEGRO_T "0) Salir\n" RESET_COLOR "Su opci%cn: ", 162, 162);
     scanf ("%d", &opci);
     switch(opci){
         case 1:
-        InicioVotante(); 
+        InicioVotante();
+        Menu();
         break;
         case 2:
         Instrucciones();
+        Menu();
         break;
         case 3:
         InicioAdministrador();
@@ -912,6 +918,7 @@ int main(){
     srand(time(NULL));
     registros = registro();
     system("CLS");
-    //printf("%d\n", registros);
+
     Instrucciones();
+    Menu();
 }
