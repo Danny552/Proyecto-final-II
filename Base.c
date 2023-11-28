@@ -160,7 +160,7 @@ void RegistrarVotante() //Opción para el administrativo para registrar un votan
     }
     printf("Clave generada exitosamente.\n");
 
-    printf( AZUL_T "1)Estudiante\n" ROJO_T "2)Docente\n" NEGRO_T "3)Egresado\n" VERDE_T "4)Administrativo\n"RESET_COLOR"Ingrese tipo del votante a registrar: ");
+    printf( AZUL_T "1) Estudiante\n" ROJO_T "2) Egresado\n" NEGRO_T "3) Docente\n" VERDE_T "4) Administrativo\n"RESET_COLOR"Ingrese tipo del votante a registrar: ");
     scanf("%d", &Votantes[registros].tipo);
 
     Votantes[registros].voto = 0;
@@ -836,7 +836,6 @@ void MenuAdmin(int admin){
     case 1:
     RegistrarVotante();
     system("CLS");
-    /*
     printf(VERDE_T "Registrado con Exito.\n");
     printf(". ");
     Sleep(1000);
@@ -844,7 +843,6 @@ void MenuAdmin(int admin){
     Sleep(1000);
     printf(".");
     Sleep(1000);
-    */
     MenuAdmin(admin);
         break;
     case 2:
