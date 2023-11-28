@@ -440,44 +440,32 @@ void HistogramaEstudiantes(){
 
     printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
     for (int i = 1; i < votos1; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos1 / votosTOT) * 100);
     printf ("\nCARLOS ALFONSO VICTORIA MENA:   ");
     for (int i = 1; i < votos2; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos2 / votosTOT) * 100);
     printf ("\nGIOVANNI ARIAS:                 ");
     for (int i = 1; i < votos3; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos3 / votosTOT) * 100);
     printf ("\nALEXANDER MOLINA CABRERA:       ");
     for (int i = 1; i < votos4; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos4 / votosTOT) * 100);
     printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
     for (int i = 1; i < votos5; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos5 / votosTOT) * 100);
     printf ("\nVOTO EN BLANCO:                 ");
     for (int i = 1; i < votos6; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos6 / votosTOT) * 100);
     printf ("\nVOTOS TOTALES: %.0f\n", votosTOT);
@@ -500,44 +488,32 @@ void HistogramaEgresados(){
 
     printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
     for (int i = 1; i < votos1; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos1 / votosTOT) * 100);
     printf ("\nCARLOS ALFONSO VICTORIA MENA:   ");
     for (int i = 1; i < votos2; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos2 / votosTOT) * 100);
     printf ("\nGIOVANNI ARIAS:                 ");
     for (int i = 1; i < votos3; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos3 / votosTOT) * 100);
     printf ("\nALEXANDER MOLINA CABRERA:       ");
     for (int i = 1; i < votos4; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos4 / votosTOT) * 100);
     printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
     for (int i = 1; i < votos5; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos5 / votosTOT) * 100);
     printf ("\nVOTO EN BLANCO:                 ");
     for (int i = 1; i < votos6; i++){
-        if (i % 50 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos6 / votosTOT) * 100);
     printf ("\nVOTOS TOTALES: %.0f\n", votosTOT);
@@ -963,6 +939,6 @@ int main(){
     registros = registro();
     system("CLS");
 
-    //Instrucciones();
+    Instrucciones();
     Menu();
 }
