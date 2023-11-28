@@ -35,7 +35,17 @@ int registro()
     return n;
 }
 
-int registros;
+int votado()
+{
+    FILE *archivo;
+    int n;
+    archivo = fopen("files//votado.txt","r");
+    fscanf(archivo,"%d",&n);
+    fclose(archivo);
+    return n;
+}
+
+int registros, votaciones;
 void Menu();
 
 void modificarCantidadRegistros(int n)
@@ -46,7 +56,8 @@ void modificarCantidadRegistros(int n)
     fclose(archivo);
 }
 
-void MenuAdmin(int admin);
+void MenuAdminR(int admin);
+void MenuAdminV(int admin);
 void MenuConsultas();
 
 struct Votante
@@ -312,6 +323,23 @@ void Votacion(int tipo)
     }
     else
     {
+        FILE *votar = fopen("files//votado.txt", "r");
+        int a;
+        fscanf(votar, "%d", &a);
+        printf("%d", a);
+        fclose(votar);
+        if(a)
+        {
+            Sleep(1);
+        }
+        else
+        {
+            a = 1;
+            FILE *votars = fopen("files//votado.txt", "w");
+            fprintf(votars,"%d", a);
+            fclose(votars);
+            votaciones = votado();
+        }
         switch(tipo)
         {
             case 1:
@@ -759,7 +787,14 @@ void InicioAdministrador(){
     {
         if(strcmp(codigo, admins[i].codigo)==0 && strcmp(clave, admins[i].clave)==0)
         {
-            MenuAdmin(i);
+            if(votaciones == 1)
+            {
+                MenuAdminV(i);
+            }
+            else
+            {
+                MenuAdminR(i);
+            }
             credencia = true;
         };
     }
@@ -782,7 +817,7 @@ void Instrucciones(){
 }
 void Menu(){
     int opci;
-    printf(RESET_COLOR "BIENVENIDO AL SISTEMA DE VOTACI%cN PARA CONSULTA SOBRE " ROJO_T "NUEVO RECTOR UTP\n", 162);
+    printf(RESET_COLOR "BIENVENIDO AL SISTEMA DE VOTACI%cN PARA CONSULTA SOBRE " ROJO_T "RECTOR UTP\n", 162);
     printf (AZUL_T "1) Iniciar como Votante\n" AMARILLO_T "2) Revisar Instrucciones de votaci%cn\n" ROJO_T "3) Iniciar como Administrador\n" NEGRO_T "0) Salir\n" RESET_COLOR "Su opci%cn: ", 162, 162);
     scanf ("%d", &opci);
     switch(opci){
@@ -800,7 +835,7 @@ void Menu(){
     }
 }
     
-void MenuAdmin(int admin){
+void MenuAdminR(int admin){
     system("CLS");
     printf(RESET_COLOR "BIENVENIDO " ROJO_T "%s\n" RESET_COLOR, admins[admin].nombre);
     printf("Ingrese lo que desea realizar:\n");
@@ -819,7 +854,7 @@ void MenuAdmin(int admin){
     Sleep(1000);
     printf(".");
     Sleep(1000);
-    MenuAdmin(admin);
+    MenuAdminR(admin);
         break;
     case 2:
     EliminarVotante();
@@ -831,7 +866,7 @@ void MenuAdmin(int admin){
     Sleep(1000);
     printf(".");
     Sleep(1000);
-    MenuAdmin(admin);
+    MenuAdminR(admin);
         break;
     case 3:
     ConsultarVotantes();
@@ -839,11 +874,11 @@ void MenuAdmin(int admin){
     printf("\nPulse una tecla para continuar.");
     getchar();
     system("CLS");
-    MenuAdmin(admin);
+    MenuAdminR(admin);
         break;
     case 4:
     MenuConsultas();
-    MenuAdmin(admin);
+    MenuAdminR(admin);
         break;
     case 6: 
     system("CLS");
@@ -853,7 +888,41 @@ void MenuAdmin(int admin){
     printf(ROJO_T "opci%cn no v%clida", 162, 160);
     Sleep(3000);
     system("Clear");
-    MenuAdmin(admin);
+    MenuAdminR(admin);
+        break;
+    }
+}
+
+void MenuAdminV(int admin){
+    system("CLS");
+    printf(RESET_COLOR "BIENVENIDO " ROJO_T "%s\n" RESET_COLOR, admins[admin].nombre);
+    printf("Ingrese lo que desea realizar:\n");
+    int opc;
+    printf("1) Consultar datos de los votantes\n2) Consultas\n3) Finalizar (ESTO CIERRA LOS VOTOS)\n" ROJO_T "4) Salir.\n" RESET_COLOR "Su opci%cn: ", 162);
+    scanf("%d", &opc);
+    switch (opc)
+    {
+    case 1:
+    ConsultarVotantes();
+    fflush(stdin);
+    printf("\nPulse una tecla para continuar.");
+    getchar();
+    system("CLS");
+    MenuAdminV(admin);
+        break;
+    case 2:
+    MenuConsultas();
+    MenuAdminV(admin);
+        break;
+    case 4: 
+    system("CLS");
+    Menu();
+        break;
+    default:
+    printf(ROJO_T "opci%cn no v%clida", 162, 160);
+    Sleep(3000);
+    system("Clear");
+    MenuAdminV(admin);
         break;
     }
 }
@@ -936,6 +1005,7 @@ void MenuConsultas(){
 
 int main(){
     srand(time(NULL));
+    votaciones = votado();
     registros = registro();
     system("CLS");
 
