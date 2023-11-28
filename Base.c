@@ -410,12 +410,18 @@ void ConsultarVotosESpecificos()
 }
 
 void HistogramaEstudiantes(){
-    float votos1 = 1378;
-    float votos2 = 1086;
-    float votos3 = 33;
-    float votos4 = 5541;
-    float votos5 = 52;
-    float votos6 = 453;
+
+    FILE *datos = fopen("Candidatos.txt", "r");
+    struct Candidato Candidatos[6];
+    fread(&Candidatos, sizeof(struct Candidato), 6, datos);
+    fclose(datos);
+
+    float votos1 = Candidatos[0].votos.votosEstudiantes;
+    float votos2 = Candidatos[1].votos.votosEstudiantes;
+    float votos3 = Candidatos[2].votos.votosEstudiantes;
+    float votos4 = Candidatos[3].votos.votosEstudiantes;
+    float votos5 = Candidatos[4].votos.votosEstudiantes;
+    float votos6 = Candidatos[5].votos.votosEstudiantes;
     float votosTOT = votos1 + votos2 + votos3 + votos4 + votos5 + votos6;
 
     printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
@@ -464,12 +470,18 @@ void HistogramaEstudiantes(){
 }
 
 void HistogramaEgresados(){
-    float votos1 = 1913;
-    float votos2 = 493;
-    float votos3 = 26;
-    float votos4 = 3371;
-    float votos5 = 40;
-    float votos6 = 105;
+
+    FILE *datos = fopen("Candidatos.txt", "r");
+    struct Candidato Candidatos[6];
+    fread(&Candidatos, sizeof(struct Candidato), 6, datos);
+    fclose(datos);
+
+    float votos1 = Candidatos[0].votos.votosEgresados;
+    float votos2 = Candidatos[1].votos.votosEgresados;
+    float votos3 = Candidatos[2].votos.votosEgresados;
+    float votos4 = Candidatos[3].votos.votosEgresados;
+    float votos5 = Candidatos[4].votos.votosEgresados;
+    float votos6 = Candidatos[5].votos.votosEgresados;
     float votosTOT = votos1 + votos2 + votos3 + votos4 + votos5 + votos6;
 
     printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
@@ -518,12 +530,18 @@ void HistogramaEgresados(){
 }
 
 void HistogramaAdministrativos(){
-    float votos1 = 235;
-    float votos2 = 13;
-    float votos3 = 3;
-    float votos4 = 156;
-    float votos5 = 0;
-    float votos6 = 6;
+    
+    FILE *datos = fopen("Candidatos.txt", "r");
+    struct Candidato Candidatos[6];
+    fread(&Candidatos, sizeof(struct Candidato), 6, datos);
+    fclose(datos);
+
+    float votos1 = Candidatos[0].votos.votosEgresados;
+    float votos2 = Candidatos[1].votos.votosEgresados;
+    float votos3 = Candidatos[2].votos.votosEgresados;
+    float votos4 = Candidatos[3].votos.votosEgresados;
+    float votos5 = Candidatos[4].votos.votosEgresados;
+    float votos6 = Candidatos[5].votos.votosEgresados;
     float votosTOT = votos1 + votos2 + votos3 + votos4 + votos5 + votos6;
 
     printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
@@ -572,12 +590,18 @@ void HistogramaAdministrativos(){
 }
 
 void HistogramaDocentes(){
-    float votos1 = 254;
-    float votos2 = 29;
-    float votos3 = 0;
-    float votos4 = 179;
-    float votos5 = 0;
-    float votos6 = 13;
+
+    FILE *datos = fopen("Candidatos.txt", "r");
+    struct Candidato Candidatos[6];
+    fread(&Candidatos, sizeof(struct Candidato), 6, datos);
+    fclose(datos);
+
+    float votos1 = Candidatos[0].votos.votosEgresados;
+    float votos2 = Candidatos[1].votos.votosEgresados;
+    float votos3 = Candidatos[2].votos.votosEgresados;
+    float votos4 = Candidatos[3].votos.votosEgresados;
+    float votos5 = Candidatos[4].votos.votosEgresados;
+    float votos6 = Candidatos[5].votos.votosEgresados;
     float votosTOT = votos1 + votos2 + votos3 + votos4 + votos5 + votos6;
 
     printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
@@ -626,40 +650,46 @@ void HistogramaDocentes(){
 }
 
 void Tabla(){
-    float votos1D = 254;
-    float votos2D = 29;
-    float votos3D = 0;
-    float votos4D = 179;
-    float votos5D = 0;
-    float votos6D = 13;
+    FILE *datos = fopen("Candidatos.txt", "r");
+    struct Candidato Candidatos[6];
+    fread(&Candidatos, sizeof(struct Candidato), 6, datos);
+
+    float votos1D = Candidatos[0].votos.votosDocentes;
+    float votos2D = Candidatos[1].votos.votosDocentes;
+    float votos3D = Candidatos[2].votos.votosDocentes;
+    float votos4D = Candidatos[3].votos.votosDocentes;
+    float votos5D = Candidatos[4].votos.votosDocentes;
+    float votos6D = Candidatos[5].votos.votosDocentes;
     float votosTOTD = votos1D + votos2D + votos3D + votos4D + votos5D + votos6D;  
 
     
-    float votos1ES = 1378;
-    float votos2ES = 1086;
-    float votos3ES = 33;
-    float votos4ES = 5541;
-    float votos5ES = 52;
-    float votos6ES = 453;
+    float votos1ES = Candidatos[0].votos.votosEstudiantes;
+    float votos2ES = Candidatos[1].votos.votosEstudiantes;;
+    float votos3ES = Candidatos[2].votos.votosEstudiantes;;
+    float votos4ES = Candidatos[3].votos.votosEstudiantes;;
+    float votos5ES = Candidatos[4].votos.votosEstudiantes;;
+    float votos6ES = Candidatos[5].votos.votosEstudiantes;;
     float votosTOTES = votos1ES + votos2ES + votos3ES + votos4ES + votos5ES + votos6ES;
 
 
-    float votos1EG = 1913;
-    float votos2EG = 493;
-    float votos3EG = 26;
-    float votos4EG = 3371;
-    float votos5EG = 40;
-    float votos6EG = 105;
+    float votos1EG = Candidatos[0].votos.votosEgresados;
+    float votos2EG = Candidatos[1].votos.votosEgresados;
+    float votos3EG = Candidatos[2].votos.votosEgresados;
+    float votos4EG = Candidatos[3].votos.votosEgresados;
+    float votos5EG = Candidatos[4].votos.votosEgresados;
+    float votos6EG = Candidatos[5].votos.votosEgresados;
     float votosTOTEG = votos1EG + votos2EG + votos3EG + votos4EG + votos5EG + votos6EG;
 
 
-    float votos1A = 235;
-    float votos2A = 13;
-    float votos3A = 3;
-    float votos4A = 156;
-    float votos5A = 0;
-    float votos6A = 6;
+    float votos1A = Candidatos[0].votos.votosAdministrativos;
+    float votos2A = Candidatos[1].votos.votosAdministrativos;
+    float votos3A = Candidatos[2].votos.votosAdministrativos;
+    float votos4A = Candidatos[3].votos.votosAdministrativos;
+    float votos5A = Candidatos[4].votos.votosAdministrativos;
+    float votos6A = Candidatos[5].votos.votosAdministrativos;
     float votosTOTA = votos1A + votos2A + votos3A + votos4A + votos5A + votos6A;
+
+    fclose(datos);
 
 // valores: docentes 40%, estudiantes 35%, admin 10%, egresados 15%
  //GAVIRIA
