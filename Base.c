@@ -944,7 +944,7 @@ void Instrucciones(){
     system("CLS");
 }
 
-void DisminuciónTerna(){
+void DisminucionTerna(){
     char temp[60];
     if(voto1 < voto2 && voto1 < voto3)
     {
@@ -997,7 +997,7 @@ void MenuSuperior(){
     for (int i = 0; i < 9; i++){
     if(strcmp(clave, ConsejoSuperior[i].clave)==0)
         {
-            if(vuelta){
+            if(vuelta == 1){
                 printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)%s\n2)%s\n¿Cu%cl candidato merece su voto? (1, 2): ", candi1, candi2, 160);
             }
             else
