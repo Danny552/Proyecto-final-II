@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <time.h>
 #include <wchar.h>
+#include <string.h>
 
 #define RESET_COLOR     "\x1b[0m"
 #define NEGRO_T         "\x1b[30m"
@@ -770,6 +771,97 @@ void Tabla(){
    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf ("|   TOTAL VOTOS ESTAMENTO          |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.f%%     |\n", votosTOTD, votosTOTES, votosTOTEG, votosTOTA, (votosTOTA + votosTOTD + votosTOTEG + votosTOTES), 100.0);
    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
+}
+
+void Terna()
+{
+        FILE *datos = fopen("Candidatos.txt", "r");
+    struct Candidato Candidatos[6];
+    fread(&Candidatos, sizeof(struct Candidato), 6, datos);
+
+    float votos1D = Candidatos[0].votos.votosDocentes;
+    float votos2D = Candidatos[1].votos.votosDocentes;
+    float votos3D = Candidatos[2].votos.votosDocentes;
+    float votos4D = Candidatos[3].votos.votosDocentes;
+    float votos5D = Candidatos[4].votos.votosDocentes;
+    float votos6D = Candidatos[5].votos.votosDocentes;
+    float votosTOTD = votos1D + votos2D + votos3D + votos4D + votos5D + votos6D;  
+
+    
+    float votos1ES = Candidatos[0].votos.votosEstudiantes;
+    float votos2ES = Candidatos[1].votos.votosEstudiantes;;
+    float votos3ES = Candidatos[2].votos.votosEstudiantes;;
+    float votos4ES = Candidatos[3].votos.votosEstudiantes;;
+    float votos5ES = Candidatos[4].votos.votosEstudiantes;;
+    float votos6ES = Candidatos[5].votos.votosEstudiantes;;
+    float votosTOTES = votos1ES + votos2ES + votos3ES + votos4ES + votos5ES + votos6ES;
+
+
+    float votos1EG = Candidatos[0].votos.votosEgresados;
+    float votos2EG = Candidatos[1].votos.votosEgresados;
+    float votos3EG = Candidatos[2].votos.votosEgresados;
+    float votos4EG = Candidatos[3].votos.votosEgresados;
+    float votos5EG = Candidatos[4].votos.votosEgresados;
+    float votos6EG = Candidatos[5].votos.votosEgresados;
+    float votosTOTEG = votos1EG + votos2EG + votos3EG + votos4EG + votos5EG + votos6EG;
+
+
+    float votos1A = Candidatos[0].votos.votosAdministrativos;
+    float votos2A = Candidatos[1].votos.votosAdministrativos;
+    float votos3A = Candidatos[2].votos.votosAdministrativos;
+    float votos4A = Candidatos[3].votos.votosAdministrativos;
+    float votos5A = Candidatos[4].votos.votosAdministrativos;
+    float votos6A = Candidatos[5].votos.votosAdministrativos;
+    float votosTOTA = votos1A + votos2A + votos3A + votos4A + votos5A + votos6A;
+
+    fclose(datos);
+
+// valores: docentes 40%, estudiantes 35%, admin 10%, egresados 15%
+ //GAVIRIA
+    float porcentajeGAD = (votos1D / votosTOTD) * 100;
+    float porcentajeGAES = (votos1ES / votosTOTES) * 100;
+    float porcentajeGAEG = (votos1EG / votosTOTEG) * 100;
+    float porcentajeGAA = (votos1A / votosTOTA) * 100;
+
+    float ponderadoGA = (porcentajeGAD * 0.4) + (porcentajeGAES * 0.35) + (porcentajeGAEG * 0.15) + (porcentajeGAA * 0.1);
+ //VICTORIA
+    float porcentajeVID = (votos2D / votosTOTD) * 100;
+    float porcentajeVIES = (votos2ES / votosTOTES) * 100;
+    float porcentajeVIEG = (votos2EG / votosTOTEG) * 100;
+    float porcentajeVIA = (votos2A / votosTOTA) * 100;
+
+    float ponderadoVI = (porcentajeVID * 0.4) + (porcentajeVIES * 0.35) + (porcentajeVIEG * 0.15) + (porcentajeVIA * 0.1);
+ //GIOVANNI
+    float porcentajeGID = (votos3D / votosTOTD) * 100;
+    float porcentajeGIES = (votos3ES / votosTOTES) * 100;
+    float porcentajeGIEG = (votos3EG / votosTOTEG) * 100;
+    float porcentajeGIA = (votos3A / votosTOTA) * 100;
+
+    float ponderadoGI = (porcentajeGID * 0.4) + (porcentajeGIES * 0.35) + (porcentajeGIEG * 0.15) + (porcentajeGIA * 0.1);
+ //MOLINA
+    float porcentajeMOD = (votos4D / votosTOTD) * 100;
+    float porcentajeMOES = (votos4ES / votosTOTES) * 100;
+    float porcentajeMOEG = (votos4EG / votosTOTEG) * 100;
+    float porcentajeMOA = (votos4A / votosTOTA) * 100;
+
+    float ponderadoMO = (porcentajeMOD * 0.4) + (porcentajeMOES * 0.35) + (porcentajeMOEG * 0.15) + (porcentajeMOA * 0.1);
+ //GUTIERREZ
+    float porcentajeGUD = (votos5D / votosTOTD) * 100;
+    float porcentajeGUES = (votos5ES / votosTOTES) * 100;
+    float porcentajeGUEG = (votos5EG / votosTOTEG) * 100;
+    float porcentajeGUA = (votos5A / votosTOTA) * 100;
+
+    float ponderadoGU = (porcentajeGUD * 0.4) + (porcentajeGUES * 0.35) + (porcentajeGUEG * 0.15) + (porcentajeGUA * 0.1);
+ //BLANCO
+    float porcentajeBLAD = (votos6D / votosTOTD) * 100;
+    float porcentajeBLAES = (votos6ES / votosTOTES) * 100;
+    float porcentajeBLAEG = (votos6EG / votosTOTEG) * 100;
+    float porcentajeBLAA = (votos6A / votosTOTA) * 100;
+
+    float ponderadoBLA = (porcentajeBLAD * 0.4) + (porcentajeBLAES * 0.35) + (porcentajeBLAEG * 0.15) + (porcentajeBLAA * 0.1);
+
+    char nombres[6][60] = {"Luis Fernando Gaviria Trujillo","","","","",};
+    float votosPond[6];
 }
 
 void InicioAdministrador(){
