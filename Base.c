@@ -329,7 +329,6 @@ void Votacion(int tipo)
         FILE *votar = fopen("files//votado.txt", "r");
         int a;
         fscanf(votar, "%d", &a);
-        printf("%d", a);
         fclose(votar);
         if(a)
         {
