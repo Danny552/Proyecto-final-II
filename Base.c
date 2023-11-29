@@ -121,6 +121,8 @@ struct ConsejoSuperior
 
 char NombresTerna[3][60];
 
+int vuelta = 0, voto1, voto2, voto3;
+
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
     system("CLS");
@@ -925,12 +927,12 @@ void InicioAdministrador(){
     }
     if(!credencia)
     {
-        printf("\nClave o c%cdigo incorrectos.\n", 162);
+        printf(ROJO_T "\nClave o c%cdigo incorrectos.\n", 162);
         printf(". ");
         Sleep(1000);
         printf(". ");
         Sleep(1000);
-        printf(".");
+        printf("." RESET_COLOR);
         Sleep(1000);
         system("CLS");
         Menu();
@@ -942,15 +944,45 @@ void Instrucciones(){
     system("CLS");
 }
 
+void DisminuciónTerna(){
+    char temp[60];
+    if(voto1 < voto2 && voto1 < voto3)
+    {
+        strcpy(temp, NombresTerna[2]);
+        strcpy(NombresTerna[2], NombresTerna[0]);
+        strcpy(NombresTerna[0], temp);
+    }
+    else
+    {
+        if(voto2 < voto1 && voto2 < voto3)
+        {
+            strcpy(temp, NombresTerna[2]);
+            strcpy(NombresTerna[2], NombresTerna[1]);
+            strcpy(NombresTerna[1], temp);
+        }
+        else
+        {
+            if(!(voto3 < voto2 && voto3 < voto1))
+            {
+                vuelta = 0;
+            }
+        }
+    }
+}
+
 void MenuSuperior(){
+    if(vuelta)
+    {
+        DisminucionTerna();
+    };
     FILE *archdisco;
     archdisco = fopen("ConsejoSuperior.txt", "r");
     struct ConsejoSuperior ConsejoSuperior[9];
     fread(&ConsejoSuperior, sizeof(struct ConsejoSuperior), 9, archdisco);
     char clave[100];
-    int voto1 = 0;
-    int voto2 = 0;
-    int voto3 = 0;
+    voto1 = 0;
+    voto2 = 0;
+    voto3 = 0;
     char candi1[60], candi2[60], candi3[60];
     strcpy(candi1, NombresTerna[0]);
     strcpy(candi2, NombresTerna[1]);
@@ -965,9 +997,17 @@ void MenuSuperior(){
     for (int i = 0; i < 9; i++){
     if(strcmp(clave, ConsejoSuperior[i].clave)==0)
         {
-    printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)%s\n2)%s\n3)%s\n¿Cu%cl candidato merece su voto? (1, 2, 3): ", candi1, candi2, candi3, 160);
+            if(vuelta){
+                printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)%s\n2)%s\n¿Cu%cl candidato merece su voto? (1, 2): ", candi1, candi2, 160);
+            }
+            else
+            {
+                printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)%s\n2)%s\n3)%s\n¿Cu%cl candidato merece su voto? (1, 2, 3): ", candi1, candi2, candi3, 160);
+            }
     int voto;
     scanf("%d", &voto);
+    if(vuelta == 0)
+    {
     switch (voto){
         case 1:
         voto1++;
@@ -1013,9 +1053,36 @@ void MenuSuperior(){
         system("CLS");
         }
     }
+    else
+    {
+        switch (voto){
+        case 1:
+        voto1++;
+        printf("\nVotado con %cxito", 130);
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
+        break;
+        case 2:
+        voto2++;
+        printf("\nVotado con %cxito", 130);
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
+        break;
+        }
+    }
 }
 }
-while (voto1 + voto2 + voto3 != 9);
+    }while (voto1 + voto2 + voto3 != 9);
  if (voto1 < 6 && voto2 < 6 && voto3 < 6){
     printf ("NO SE HA LLEGADO A UN ACUERDO, ACORDAR PARA REALIZAR SEGUNDA VUELTA\n\n");
     printf(". ");
