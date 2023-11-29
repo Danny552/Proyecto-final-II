@@ -306,6 +306,7 @@ void Votacion(int tipo)
     scanf("%d", &op);
     if(op<1 || op>6)
     {
+        system("CLS");
         printf(ROJO_T "Opci%cn inv%clida.\n", 162, 160);
     };
     }while(op<1 || op>6);
@@ -425,6 +426,7 @@ void InicioVotante()
                 printf("." RESET_COLOR);
                 Sleep(1000);
                 credencia = true;
+                system("CLS");
                 break;
             }
         };
@@ -764,9 +766,9 @@ void Tabla(){
    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf ("|3. GIOVANNI ARIAS                 |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos3D, votos3ES, votos3EG, votos3A, (votos3A + votos3D + votos3EG + votos3ES), ponderadoGI);
    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf ("|5. ALEXANDER MOLINA CABRERA       |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos4D, votos4ES, votos4EG, votos4A, (votos4A + votos4D + votos4EG + votos4ES), ponderadoMO);
+    printf ("|4. JUAN CARLOS GUTIERREZ ARIAS    |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos4D, votos4ES, votos4EG, votos4A, (votos4A + votos4D + votos4EG + votos4ES), ponderadoMO);
    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
-    printf ("|6. JUAN CARLOS GUTIERREZ ARIAS    |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos5D, votos5ES, votos5EG, votos5A, (votos5A + votos5D + votos5EG + votos5ES), ponderadoGU);
+    printf ("|5. ALEXANDER MOLINA CABRERA       |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos5D, votos5ES, votos5EG, votos5A, (votos5A + votos5D + votos5EG + votos5ES), ponderadoGU);
    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
     printf ("|6. VOTO EN BLANCO                 |    %6.0f    |      %6.0f     |     %6.0f    |        %6.0f       |      %6.0f     |      %6.2f%%     |\n", votos6D, votos6ES, votos6EG, votos6A, (votos6A + votos6D + votos6EG + votos6ES), ponderadoBLA);
    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
@@ -968,14 +970,14 @@ void MenuSuperior(){
     printf ("LOS NUEVE REPRESENTANTES HAN INGRESADO SATISFACTORIAMENTE, SE DA COMIENZO A LAS ELECCIONES...\n\n");
     printf("(No hay necesidad de hacer los votos en un orden espec%cfico, al momento de realizar el voto este quedar%c autom%cticamente registrado)\n",161, 160, 160);
     do {
-    printf ("Ingrese su contraseña para realizar su voto: ");
+    printf ("Ingrese su contrase%ca para realizar su voto: ", 164);
     fflush(stdin);
     gets(clave);
 
     for (int i = 0; i < 9; i++){
     if(strcmp(clave, ConsejoSuperior[i].clave)==0)
         {
-    printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)%s\n2)%s\n3)%s\n¿Cuál candidato merece su voto? (1, 2, 3): ", candi1, candi2, candi3);
+    printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)%s\n2)%s\n3)%s\n¿Cu%cl candidato merece su voto? (1, 2, 3): ", candi1, candi2, candi3, 160);
     int voto;
     scanf("%d", &voto);
     switch (voto){
@@ -1013,7 +1015,7 @@ void MenuSuperior(){
         system("CLS");
         break;
         default:
-        printf ("\nOPCI%cN INVÁLIDA", 224);
+        printf ("\nOPCI%cN INV%cLIDA", 224, 181);
         printf(". ");
         Sleep(1000);
         printf(". ");
@@ -1026,8 +1028,15 @@ void MenuSuperior(){
 }
 }
 while (voto1 + voto2 + voto3 != 9);
- if (voto1 != 6 || voto2 != 6 || voto3 != 6){
-    printf ("NO SE HA LLEGADO A UN ACUERDO, ACORDAR PARA REALIZAR SEGUNDA VUELTA");
+ if (voto1 < 6 && voto2 < 6 && voto3 < 6){
+    printf ("NO SE HA LLEGADO A UN ACUERDO, ACORDAR PARA REALIZAR SEGUNDA VUELTA\n\n");
+    printf(". ");
+    Sleep(1000);
+    printf(". ");
+    Sleep(1000);
+    printf(".");
+    Sleep(1000);
+    system("CLS");
     Menu();
  }
  else {
@@ -1190,8 +1199,13 @@ void MenuAdminV(int admin){
     MenuConsultas();
     MenuAdminV(admin);
         break;
-    case 4: 
+    case 3:
     system("CLS");
+    Terna();
+    IngresoSuperior();
+    break;
+    case 4:
+    system ("CLS");
     Menu();
         break;
     default:
