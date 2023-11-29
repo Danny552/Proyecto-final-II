@@ -394,7 +394,7 @@ void InicioVotante()
     FILE *archivo = fopen("files//Votantes.txt", "r");
     FILE *Votnuevos = fopen("files//VotantesNuev.txt", "at+");
     
-    if(fread(&Votantes, sizeof(struct Votante), registros, archivo) == registros)
+    if(fread(&Votantes, sizeof(struct Votante), registros, archivo) == (size_t)registros)
     {
     for(i=0;i<registros;i++)
     {
@@ -683,11 +683,11 @@ void Tabla(){
 
     
     float votos1ES = Candidatos[0].votos.votosEstudiantes;
-    float votos2ES = Candidatos[1].votos.votosEstudiantes;;
-    float votos3ES = Candidatos[2].votos.votosEstudiantes;;
-    float votos4ES = Candidatos[3].votos.votosEstudiantes;;
-    float votos5ES = Candidatos[4].votos.votosEstudiantes;;
-    float votos6ES = Candidatos[5].votos.votosEstudiantes;;
+    float votos2ES = Candidatos[1].votos.votosEstudiantes;
+    float votos3ES = Candidatos[2].votos.votosEstudiantes;
+    float votos4ES = Candidatos[3].votos.votosEstudiantes;
+    float votos5ES = Candidatos[4].votos.votosEstudiantes;
+    float votos6ES = Candidatos[5].votos.votosEstudiantes;
     float votosTOTES = votos1ES + votos2ES + votos3ES + votos4ES + votos5ES + votos6ES;
 
 
@@ -773,11 +773,40 @@ void Tabla(){
    printf(" -----------------------------------------------------------------------------------------------------------------------------------------------\n");
 }
 
+void CambioN(float *xp, float *yp) {
+    int temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+void CambioC(char *xp, char *yp) {
+    char temp[60];
+    strcpy(temp, xp);
+    strcpy(xp, yp);
+    strcpy(yp, temp);
+}
+
+void CambioBurbuja(float arr[], int n, char nombres[6][60]) {
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < n-i-1; j++) {
+            if (arr[j] < arr[j+1]) {
+                CambioN(&arr[j], &arr[j+1]);
+                CambioC(nombres[j], nombres[j+1]);
+            }
+        }
+    }
+}
+
 void Terna()
 {
         FILE *datos = fopen("Candidatos.txt", "r");
     struct Candidato Candidatos[6];
     fread(&Candidatos, sizeof(struct Candidato), 6, datos);
+
+    char nombres[6][60];
+
+    for (int i=0; i<6; i++) {
+        strcpy(nombres[i], Candidatos[i].nombre);
+    }
 
     float votos1D = Candidatos[0].votos.votosDocentes;
     float votos2D = Candidatos[1].votos.votosDocentes;
@@ -789,11 +818,11 @@ void Terna()
 
     
     float votos1ES = Candidatos[0].votos.votosEstudiantes;
-    float votos2ES = Candidatos[1].votos.votosEstudiantes;;
-    float votos3ES = Candidatos[2].votos.votosEstudiantes;;
-    float votos4ES = Candidatos[3].votos.votosEstudiantes;;
-    float votos5ES = Candidatos[4].votos.votosEstudiantes;;
-    float votos6ES = Candidatos[5].votos.votosEstudiantes;;
+    float votos2ES = Candidatos[1].votos.votosEstudiantes;
+    float votos3ES = Candidatos[2].votos.votosEstudiantes;
+    float votos4ES = Candidatos[3].votos.votosEstudiantes;
+    float votos5ES = Candidatos[4].votos.votosEstudiantes;
+    float votos6ES = Candidatos[5].votos.votosEstudiantes;
     float votosTOTES = votos1ES + votos2ES + votos3ES + votos4ES + votos5ES + votos6ES;
 
 
@@ -860,8 +889,17 @@ void Terna()
 
     float ponderadoBLA = (porcentajeBLAD * 0.4) + (porcentajeBLAES * 0.35) + (porcentajeBLAEG * 0.15) + (porcentajeBLAA * 0.1);
 
-    char nombres[6][60] = {"Luis Fernando Gaviria Trujillo","","","","",};
-    float votosPond[6];
+    
+    float votosPond[6] = {ponderadoGA, ponderadoVI, ponderadoGI, ponderadoGU, ponderadoMO, ponderadoBLA};
+
+
+    CambioBurbuja(votosPond, 6, nombres);
+
+    char TernaElegida[3][60];
+    for(int i=0;i<3;i++)
+    {
+        strcpy(TernaElegida[i], nombres[i]);
+    }
 }
 
 void InicioAdministrador(){
