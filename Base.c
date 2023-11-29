@@ -418,7 +418,7 @@ void InicioVotante()
                 system("CLS");
                 Votacion(Votantes[i].tipo);
                 Votantes[i].voto = 1;
-                printf(VERDE_T "Votación Exitosa.\n");
+                printf(VERDE_T "Votaci%cn Exitosa.\n", 162);
                 printf(". ");
                 Sleep(1000);
                 printf(". ");
@@ -959,38 +959,62 @@ void MenuSuperior(){
     struct ConsejoSuperior ConsejoSuperior[9];
     fread(&ConsejoSuperior, sizeof(struct ConsejoSuperior), 9, archdisco);
     char clave[100];
-    int voto;
     int voto1 = 0;
     int voto2 = 0;
     int voto3 = 0;
-    char candi1[100], candi2[100], candi3[100];
+    char candi1[60], candi2[60], candi3[60];
+    strcpy(candi1, NombresTerna[0]);
+    strcpy(candi2, NombresTerna[1]);
+    strcpy(candi3, NombresTerna[2]);
     printf ("LOS NUEVE REPRESENTANTES HAN INGRESADO SATISFACTORIAMENTE, SE DA COMIENZO A LAS ELECCIONES...\n\n");
-    printf("(No hay necesidad de hacer los votos en un orden específico, al momento de realizar el voto este quedará automáticamente registrado)\n");
+    printf("(No hay necesidad de hacer los votos en un orden espec%cfico, al momento de realizar el voto este quedar%c autom%cticamente registrado)\n",161, 160, 160);
+    do {
     printf ("Ingrese su contraseña para realizar su voto: ");
     fflush(stdin);
     gets(clave);
- do
- { 
+
     for (int i = 0; i < 9; i++){
     if(strcmp(clave, ConsejoSuperior[i].clave)==0)
         {
-    printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)------\n2)------\n3)------\n¿Cuál candidato merece su voto? (1, 2, 3): ");
-    gets (voto);
+    printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)%s\n2)%s\n3)%s\n¿Cuál candidato merece su voto? (1, 2, 3): ", candi1, candi2, candi3);
+    int voto;
+    scanf("%d", &voto);
     switch (voto){
         case 1:
         voto1++;
-        printf("Votado con éxito");
+        printf("\nVotado con %cxito", 130);
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
         break;
         case 2:
         voto2++;
-        printf("Votado con éxito");
+        printf("\nVotado con %cxito", 130);
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
         break;
         case 3:
         voto3++;
-        printf ("votado con éxito");
+        printf ("\nvotado con %cxito", 130);
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
         break;
         default:
-        printf ("OPCIÓN INVÁLIDA");
+        printf ("\nOPCI%cN INVÁLIDA", 224);
         printf(". ");
         Sleep(1000);
         printf(". ");
@@ -1002,20 +1026,20 @@ void MenuSuperior(){
     }
 }
 }
-while (voto1 + voto2 + voto != 9);
+while (voto1 + voto2 + voto3 != 9);
  if (voto1 != 6 || voto2 != 6 || voto3 != 6){
     printf ("NO SE HA LLEGADO A UN ACUERDO, ACORDAR PARA REALIZAR SEGUNDA VUELTA");
     Menu();
  }
  else {
-    if (voto1 == 6){
-        printf ("\nEL RECTOR ELEGIDO HA SIDO: ", candi1);
+    if (voto1 >= 6){
+        printf ("\nEL RECTOR ELEGIDO HA SIDO: %s\n", candi1);
     } else {
-        if (voto2 == 6){
-            printf ("\nEL RECTOR ELEGIDO HA SIDO: ", candi2);
+        if (voto2 >= 6){
+            printf ("\nEL RECTOR ELEGIDO HA SIDO: %s\n", candi2);
         } else {
-            if (voto3 == 6){
-                printf ("\nEL RECTOR ELEGIDO HA SIDO: ", candi3);
+            if (voto3 >= 6){
+                printf ("\nEL RECTOR ELEGIDO HA SIDO: %s\n", candi3);
             }
         }
     }
@@ -1033,14 +1057,18 @@ void IngresoSuperior(){
     bool credencia;
     fflush(stdin);
     do {
+    credencia = false;
+    system("CLS");
     printf ("Ingrese su nombre (Nombre completo con may%csculas iniciales)\n", 163);
     gets(usuario);
-    printf ("Ingrese su clave (En caso de pérdida o olvido, también es dada por el administrador)\n");
+    printf ("Ingrese su clave (En caso de p%crdida o olvido, tambi%cn es dada por el administrador)\n", 130, 130);
     gets(clave);
     for(int i = 0;i < 9; i++)
     {
         if(strcmp(usuario, ConsejoSuperior[i].nombre)==0 && strcmp(clave, ConsejoSuperior[i].clave)==0)
         {
+            printf ("Ingresado con %cxito\n", 130);
+            system("CLS");
             credencia = true;
             totalConsejo++;
         };
@@ -1079,9 +1107,6 @@ void Menu(){
         case 3:
         InicioAdministrador();
         break;
-        case 4:
-        IngresoSuperior();
-        break;
     }
 }    
 void MenuAdminR(int admin){
@@ -1089,7 +1114,7 @@ void MenuAdminR(int admin){
     printf(RESET_COLOR "BIENVENIDO " ROJO_T "%s\n" RESET_COLOR, admins[admin].nombre);
     printf("Ingrese lo que desea realizar:\n");
     int opc;
-    printf("1) Registrar votante\n2) Eliminar datos de votante\n3) Consultar datos de los votantes\n4) Consultas\n5) Finalizar (ESTO CIERRA LOS VOTOS)\n" ROJO_T "6) Salir.\n" RESET_COLOR "Su opci%cn: ", 162);
+    printf("1) Registrar votante\n2) Eliminar datos de votante\n3) Consultar datos de los votantes\n4) Consultas\n5) Finalizar (ESTO CIERRA LOS VOTOS Y ACCEDE AL MODO CONSEJO SUPERIOR)\n" ROJO_T "6) Salir.\n" RESET_COLOR "Su opci%cn: ", 162);
     scanf("%d", &opc);
     switch (opc)
     {
@@ -1129,6 +1154,9 @@ void MenuAdminR(int admin){
     MenuConsultas();
     MenuAdminR(admin);
         break;
+    case 5:
+    IngresoSuperior();
+    break;
     case 6: 
     system("CLS");
     Menu();
