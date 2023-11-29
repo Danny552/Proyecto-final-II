@@ -913,20 +913,81 @@ void MenuSuperior(){
     archdisco = fopen("ConsejoSuperior.txt", "r");
     struct ConsejoSuperior ConsejoSuperior[9];
     fread(&ConsejoSuperior, sizeof(struct ConsejoSuperior), 9, archdisco);
+    char clave[100];
     int voto;
-    printf ("INGRESADO COMO REPRESENTANTE DEL CONSEJO SUPERIOR...\n\n");
-    printf ("Ingrese su voto: ");
+    int voto1 = 0;
+    int voto2 = 0;
+    int voto3 = 0;
+    char candi1[100], candi2[100], candi3[100];
+    printf ("LOS NUEVE REPRESENTANTES HAN INGRESADO SATISFACTORIAMENTE, SE DA COMIENZO A LAS ELECCIONES...\n\n");
+    printf("(No hay necesidad de hacer los votos en un orden específico, al momento de realizar el voto este quedará automáticamente registrado)\n");
+    printf ("Ingrese su contraseña para realizar su voto: ");
+    fflush(stdin);
+    gets(clave);
+ do
+ { 
+    for (int i = 0; i < 9; i++){
+    if(strcmp(clave, ConsejoSuperior[i].clave)==0)
+        {
+    printf ("Ingrese su voto, los resultados de la consulta arrojaron:\n1)------\n2)------\n3)------\n¿Cuál candidato merece su voto? (1, 2, 3): ");
     gets (voto);
+    switch (voto){
+        case 1:
+        voto1++;
+        printf("Votado con éxito");
+        break;
+        case 2:
+        voto2++;
+        printf("Votado con éxito");
+        break;
+        case 3:
+        voto3++;
+        printf ("votado con éxito");
+        break;
+        default:
+        printf ("OPCIÓN INVÁLIDA");
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
+        }
+    }
 }
+}
+while (voto1 + voto2 + voto != 9);
+ if (voto1 != 6 || voto2 != 6 || voto3 != 6){
+    printf ("NO SE HA LLEGADO A UN ACUERDO, ACORDAR PARA REALIZAR SEGUNDA VUELTA");
+    Menu();
+ }
+ else {
+    if (voto1 == 6){
+        printf ("\nEL RECTOR ELEGIDO HA SIDO: ", candi1);
+    } else {
+        if (voto2 == 6){
+            printf ("\nEL RECTOR ELEGIDO HA SIDO: ", candi2);
+        } else {
+            if (voto3 == 6){
+                printf ("\nEL RECTOR ELEGIDO HA SIDO: ", candi3);
+            }
+        }
+    }
+ }
+}
+
 
 void IngresoSuperior(){
     FILE *archdisco;
     archdisco = fopen("ConsejoSuperior.txt", "r");
     struct ConsejoSuperior ConsejoSuperior[9];
     fread(&ConsejoSuperior, sizeof(struct ConsejoSuperior), 9, archdisco);
+    int totalConsejo = 0;
     char usuario[100], clave[100];
     bool credencia;
     fflush(stdin);
+    do {
     printf ("Ingrese su nombre (Nombre completo con may%csculas iniciales)\n", 163);
     gets(usuario);
     printf ("Ingrese su clave (En caso de pérdida o olvido, también es dada por el administrador)\n");
@@ -935,8 +996,8 @@ void IngresoSuperior(){
     {
         if(strcmp(usuario, ConsejoSuperior[i].nombre)==0 && strcmp(clave, ConsejoSuperior[i].clave)==0)
         {
-            MenuSuperior(i);
             credencia = true;
+            totalConsejo++;
         };
     }
     if(!credencia)
@@ -950,6 +1011,9 @@ void IngresoSuperior(){
         Sleep(1000);
         system("CLS");
     }
+    }
+    while (totalConsejo != 9);
+    MenuSuperior();
     fclose(archdisco);
 }
 
