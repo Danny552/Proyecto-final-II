@@ -485,12 +485,12 @@ void HistogramaEstudiantes(){
         printf("=");
     }
     printf("| %.2f%%", (votos3 / votosTOT) * 100);
-    printf ("\nALEXANDER MOLINA CABRERA:       ");
+    printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
     for (int i = 1; i < votos4; i++){
         printf("=");
     }
     printf("| %.2f%%", (votos4 / votosTOT) * 100);
-    printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
+    printf ("\nALEXANDER MOLINA CABRERA:       ");
     for (int i = 1; i < votos5; i++){
         printf("=");
     }
@@ -533,12 +533,12 @@ void HistogramaEgresados(){
         printf("=");
     }
     printf("| %.2f%%", (votos3 / votosTOT) * 100);
-    printf ("\nALEXANDER MOLINA CABRERA:       ");
+    printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
     for (int i = 1; i < votos4; i++){
         printf("=");
     }
     printf("| %.2f%%", (votos4 / votosTOT) * 100);
-    printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
+    printf ("\nALEXANDER MOLINA CABRERA:       ");
     for (int i = 1; i < votos5; i++){
         printf("=");
     }
@@ -558,54 +558,42 @@ void HistogramaAdministrativos(){
     fread(&Candidatos, sizeof(struct Candidato), 6, datos);
     fclose(datos);
 
-    float votos1 = Candidatos[0].votos.votosEgresados;
-    float votos2 = Candidatos[1].votos.votosEgresados;
-    float votos3 = Candidatos[2].votos.votosEgresados;
-    float votos4 = Candidatos[3].votos.votosEgresados;
-    float votos5 = Candidatos[4].votos.votosEgresados;
-    float votos6 = Candidatos[5].votos.votosEgresados;
+    float votos1 = Candidatos[0].votos.votosAdministrativos;
+    float votos2 = Candidatos[1].votos.votosAdministrativos;
+    float votos3 = Candidatos[2].votos.votosAdministrativos;
+    float votos4 = Candidatos[3].votos.votosAdministrativos;
+    float votos5 = Candidatos[4].votos.votosAdministrativos;
+    float votos6 = Candidatos[5].votos.votosAdministrativos;
     float votosTOT = votos1 + votos2 + votos3 + votos4 + votos5 + votos6;
 
     printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
     for (int i = 1; i < votos1; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos1 / votosTOT) * 100);
     printf ("\nCARLOS ALFONSO VICTORIA MENA:   ");
     for (int i = 1; i < votos2; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos2 / votosTOT) * 100);
-    printf ("\nGIOVANNI ARIAS:                 ");
+    printf ("\nALEXANDER MOLINA CABRERA:       ");
     for (int i = 1; i < votos3; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos3 / votosTOT) * 100);
-    printf ("\nALEXANDER MOLINA CABRERA:       ");
+    printf ("\nGIOVANNI ARIAS:                 ");
     for (int i = 1; i < votos4; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos4 / votosTOT) * 100);
     printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
     for (int i = 1; i < votos5; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos5 / votosTOT) * 100);
     printf ("\nVOTO EN BLANCO:                 ");
     for (int i = 1; i < votos6; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos6 / votosTOT) * 100);
     printf ("\nVOTOS TOTALES: %.0f\n", votosTOT);
@@ -618,54 +606,42 @@ void HistogramaDocentes(){
     fread(&Candidatos, sizeof(struct Candidato), 6, datos);
     fclose(datos);
 
-    float votos1 = Candidatos[0].votos.votosEgresados;
-    float votos2 = Candidatos[1].votos.votosEgresados;
-    float votos3 = Candidatos[2].votos.votosEgresados;
-    float votos4 = Candidatos[3].votos.votosEgresados;
-    float votos5 = Candidatos[4].votos.votosEgresados;
-    float votos6 = Candidatos[5].votos.votosEgresados;
+    float votos1 = Candidatos[0].votos.votosDocentes;
+    float votos2 = Candidatos[1].votos.votosDocentes;
+    float votos3 = Candidatos[2].votos.votosDocentes;
+    float votos4 = Candidatos[3].votos.votosDocentes;
+    float votos5 = Candidatos[4].votos.votosDocentes;
+    float votos6 = Candidatos[5].votos.votosDocentes;
     float votosTOT = votos1 + votos2 + votos3 + votos4 + votos5 + votos6;
 
     printf ("\nLUIS FERNANDO GAVIRIA TRUJILLO: ");
     for (int i = 1; i < votos1; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos1 / votosTOT) * 100);
     printf ("\nCARLOS ALFONSO VICTORIA MENA:   ");
     for (int i = 1; i < votos2; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos2 / votosTOT) * 100);
     printf ("\nGIOVANNI ARIAS:                 ");
     for (int i = 1; i < votos3; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos3 / votosTOT) * 100);
-    printf ("\nALEXANDER MOLINA CABRERA:       ");
+    printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
     for (int i = 1; i < votos4; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos4 / votosTOT) * 100);
-    printf ("\nJUAN CARLOS GUTIERREZ ARIAS:    ");
+    printf ("\nALEXANDER MOLINA CABRERA:       ");
     for (int i = 1; i < votos5; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos5 / votosTOT) * 100);
     printf ("\nVOTO EN BLANCO:                 ");
     for (int i = 1; i < votos6; i++){
-        if (i % 10 == 0){
-            printf ("=");
-        }
+        printf("=");
     }
     printf("| %.2f%%", (votos6 / votosTOT) * 100);
     printf ("\nVOTOS TOTALES: %.0f\n", votosTOT);
@@ -949,7 +925,7 @@ void InicioAdministrador(){
     }
     if(!credencia)
     {
-        printf("Clave o c%cdigo incorrectos.\n", 162);
+        printf("\nClave o c%cdigo incorrectos.\n", 162);
         printf(". ");
         Sleep(1000);
         printf(". ");
@@ -1064,6 +1040,7 @@ while (voto1 + voto2 + voto3 != 9);
         }
     }
  }
+ system("PAUSE");
 }
 
 
@@ -1195,7 +1172,7 @@ void MenuAdminV(int admin){
     printf(RESET_COLOR "BIENVENIDO " ROJO_T "%s\n" RESET_COLOR, admins[admin].nombre);
     printf("Ingrese lo que desea realizar:\n");
     int opc;
-    printf("1) Consultar datos de los votantes\n2) Consultas\n3) Finalizar (ESTO CIERRA LOS VOTOS)\n" ROJO_T "4) Salir.\n" RESET_COLOR "Su opci%cn: ", 162);
+    printf("1) Consultar datos de los votantes\n2) Consultas\n3) Finalizar (ESTO CIERRA LOS VOTOS Y ACCEDE AL MODO CONSEJO SUPERIOR)\n" ROJO_T "4) Salir.\n" RESET_COLOR "Su opci%cn: ", 162);
     scanf("%d", &opc);
     switch (opc)
     {
