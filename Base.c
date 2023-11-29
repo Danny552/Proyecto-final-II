@@ -119,6 +119,8 @@ struct ConsejoSuperior
     int voto;
 };
 
+char NombresTerna[3][60];
+
 void RegistrarVotante() //Opción para el administrativo para registrar un votante
 {
     system("CLS");
@@ -899,6 +901,11 @@ void Terna()
     for(int i=0;i<3;i++)
     {
         strcpy(TernaElegida[i], nombres[i]);
+    }
+
+    for(int i=0;i<3;i++)
+    {
+        strcpy(NombresTerna[i], TernaElegida[i]);
     }
 }
 
