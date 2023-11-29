@@ -916,11 +916,22 @@ void InicioAdministrador(){
     printf(ROJO_T "Inicio como Administrador\n" RESET_COLOR);
     bool credencia = false;
     int i;
+    char c;
     char codigo[12], clave[100];    
     printf("Ingrese su c%cdigo: ", 162);
     gets(codigo);
     printf("Ingrese su clave: ");
-    gets(clave);
+    for(int i=0;c!=13;i++)
+    {
+        c = getch();
+        if(c != 13){
+            clave[i] = c;
+            printf("*");
+        }
+        else{
+            clave[i] = '\0';
+        }
+    }
     for(i=0;i<2;i++)
     {
         if(strcmp(codigo, admins[i].codigo)==0 && strcmp(clave, admins[i].clave)==0)
@@ -946,6 +957,7 @@ void InicioAdministrador(){
         printf(".");
         Sleep(1000);
         system("CLS");
+        Menu();
     }
 }
 void Instrucciones(){
