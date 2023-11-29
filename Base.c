@@ -945,6 +945,52 @@ void Instrucciones(){
     system("PAUSE");
     system("CLS");
 }
+
+void MenuSuperior(){
+    FILE *archdisco;
+    archdisco = fopen("ConsejoSuperior.txt", "r");
+    struct ConsejoSuperior ConsejoSuperior[9];
+    fread(&ConsejoSuperior, sizeof(struct ConsejoSuperior), 9, archdisco);
+    int voto;
+    printf ("INGRESADO COMO REPRESENTANTE DEL CONSEJO SUPERIOR...\n\n");
+    printf ("Ingrese su voto: ");
+    gets (voto);
+}
+
+void IngresoSuperior(){
+    FILE *archdisco;
+    archdisco = fopen("ConsejoSuperior.txt", "r");
+    struct ConsejoSuperior ConsejoSuperior[9];
+    fread(&ConsejoSuperior, sizeof(struct ConsejoSuperior), 9, archdisco);
+    char usuario[100], clave[100];
+    bool credencia;
+    fflush(stdin);
+    printf ("Ingrese su nombre (Nombre completo con may%csculas iniciales)\n", 163);
+    gets(usuario);
+    printf ("Ingrese su clave (En caso de pérdida o olvido, también es dada por el administrador)\n");
+    gets(clave);
+    for(int i = 0;i < 9; i++)
+    {
+        if(strcmp(usuario, ConsejoSuperior[i].nombre)==0 && strcmp(clave, ConsejoSuperior[i].clave)==0)
+        {
+            MenuSuperior(i);
+            credencia = true;
+        };
+    }
+    if(!credencia)
+    {
+        printf("Clave o c%cdigo incorrectos.\n", 162);
+        printf(". ");
+        Sleep(1000);
+        printf(". ");
+        Sleep(1000);
+        printf(".");
+        Sleep(1000);
+        system("CLS");
+    }
+    fclose(archdisco);
+}
+
 void Menu(){
     int opci;
     printf(RESET_COLOR "BIENVENIDO AL SISTEMA DE VOTACI%cN PARA CONSULTA SOBRE " ROJO_T "RECTOR UTP\n", 162);
@@ -962,9 +1008,11 @@ void Menu(){
         case 3:
         InicioAdministrador();
         break;
+        case 4:
+        IngresoSuperior();
+        break;
     }
-}
-    
+}    
 void MenuAdminR(int admin){
     system("CLS");
     printf(RESET_COLOR "BIENVENIDO " ROJO_T "%s\n" RESET_COLOR, admins[admin].nombre);
